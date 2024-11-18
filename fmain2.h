@@ -1,4 +1,3 @@
-/* fmain2.c */
 int dohit(long i, long j, long fc, int wt);
 int aftermath(void);
 int proxcheck(int x, int y, int i);

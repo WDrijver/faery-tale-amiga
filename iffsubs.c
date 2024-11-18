@@ -98,7 +98,7 @@ unpackpic(filename,bitmap) char *filename; struct BitMap *bitmap;
 		{	ReadLength(); Read(myfile,&bmhd,blocklength); }
 		else if (header == CMAP)
 		{	ReadLength(); Read(myfile,&cmap,blocklength); }
-		else if (header == CAMG || header == CRNG || header == DEST)
+		else if (header == CAMG || header == CRNG ) //|| header == DEST)
 		{	ReadLength(); Seek(myfile,blocklength,0); }
 		else if (header == GRAB)
 		{	ReadLength(); Read(myfile,&grab,blocklength); }
@@ -154,7 +154,7 @@ char *filename; struct BitMap *bitmap; short x,y;
 		if (header == ILBM) ;
 		else if (header == BMHD)
 		{	ReadLength(); Read(myfile,&bmhd,blocklength); }
-		else if (header == CAMG || header == CRNG || header == DEST
+		else if (header == CAMG || header == CRNG //|| header == DEST
 			|| header == CMAP || header == GRAB)
 		{	ReadLength(); Seek(myfile,blocklength,0); }
 		else if (header == BODY)

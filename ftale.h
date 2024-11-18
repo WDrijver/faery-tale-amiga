@@ -1,8 +1,42 @@
 /* include file for faery tale adventures - by Talin */
 
-#include "fmain.p"
-#include "fmain2.p"
-#include "iffsubs.p"
+#include <stdbool.h>
+#include <stddef.h>
+
+#include "ApolloDebug.h"
+
+#include "graphics/text.h"
+#include "graphics/gfxbase.h"
+#include "graphics/rastport.h"
+#include "devices/input.h"
+#include "dos/dos.h"
+#include "dos/dosextens.h"
+#include "exec/exec.h"
+#include "exec/ports.h"
+#include "exec/io.h"
+#include "devices/audio.h"
+#include "workbench/startup.h"
+#include "exec/types.h"
+#include "exec/memory.h"
+#include "graphics/view.h"
+#include "hardware/blit.h"
+#include "hardware/custom.h"
+#include "graphics/gfxmacros.h"
+#include "graphics/copper.h"
+#include "graphics/display.h"
+#include "graphics/text.h"
+#include "graphics/gfxbase.h"
+#include "graphics/sprite.h"
+#include "exec/devices.h"
+#include "libraries/diskfont.h"
+#include "libraries/dosextens.h"
+#include "devices/input.h"
+#include "devices/inputevent.h"
+#include "devices/trackdisk.h"
+#include "graphics/layers.h"
+
+
+
 
 #define free_chip(new,old,size) if (new!=old) FreeMem(new,size);
 

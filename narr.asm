@@ -4,10 +4,15 @@
 ;$ = who we are speaking to??
 
 		dseg
-		public	_place_msg,_inside_msg,_place_tbl,_inside_tbl
-		public	_event_msg
+		
+		XDEF	_place_msg
+		XDEF	_inside_msg
+		XDEF	_place_tbl
+		XDEF	_inside_tbl
+		XDEF	_event_msg
 
-		public	_print_cont
+		XREF	_print_cont
+
 _event_msg
 		dc.b	"% was getting rather hungry.",0
 		dc.b	"% was getting very hungry.",0
@@ -58,7 +63,7 @@ _event_msg
 ; what if monster attacks you when you are sleeping?
 
 		cseg
-		public	_question
+		XDEF	_question
 
 _question
 		move.l	4(sp),d0
@@ -230,7 +235,7 @@ _inside_msg
 XY			equ		128		; then x/2 then y
 ETX			equ		0
 
-			public	_ssp,_placard_text
+			XDEF	_ssp,_placard_text
 
 _placard_text
 			move.l	4(sp),d0
@@ -346,7 +351,7 @@ msg12		dc.b	XY,128/2,19,"So..."
 			dc.b	XY,10/2,105,"your fitness to be their advisor:"
 			dc.b	ETX
 			dseg
-			public	_speeches
+			XDEF	_speeches
 
 _speeches
 ; 0 - ogre speech
@@ -434,7 +439,7 @@ _speeches
 		dc.b	'"The maiden you seek lies imprisoned in an unreachable '
 		dc.b	'castle surrounded by unclimbable mountains."',0
 ; 33 - wizard message 7
-		dc.b	"Tame the golden beast and no mountain may deny you! '
+		dc.b	'"Tame the golden beast and no mountain may deny you! '
 		dc.b	'But what rope could hold such a creature?"',0
 ; 34 - wizard message 8
 		dc.b	'"Just what I needed!" he said.',0
@@ -443,7 +448,7 @@ _speeches
 		dc.b	'"Perhaps you can find some small animal to torment '
 		dc.b	'if that pleases you!"',0
 ; 36 - cleric message 1
-		dc.b	"You must seek your enemy on the spirit plane. '
+		dc.b	'"You must seek your enemy on the spirit plane. '
 		dc.b	'It is hazardous in the extreme. Space may twist, '
 		dc.b	'and time itself may run backwards!"',0
 ; 37 - cleric message 2

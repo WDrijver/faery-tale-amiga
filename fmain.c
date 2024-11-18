@@ -1,6 +1,7 @@
 /* fmain.c - created Aug 86 by Talin - The Faerie Tale Adventure */
 
 #include "ftale.h"
+#include "fmain.h"
 
 /****** this section defines the variables used to communicate with the 
 		graphics routines */
@@ -14,6 +15,9 @@
 #define PAGE_HEIGHT	143
 #define RAST_HEIGHT	200
 #define TEXT_HEIGHT	57
+
+extern struct MsgPort *CreatePort();
+extern struct IOStdReq *CreateStdIO();
 
 struct View v, *oldview;
 struct ViewPort vp_page, vp_text, vp_title, *vp;
@@ -554,6 +558,7 @@ char	hit;	/* which menu we hit */
 extern UBYTE place_tbl[], inside_tbl[];
 extern char place_msg[], inside_msg[];
 
+
 unsigned short	map_x, map_y,	/* absolute map coordinates in pixels */
 				hero_x, hero_y, /* shorthand variables for hero location */
 				safe_x, safe_y,	safe_r, /* last 'safe zone' visited */
@@ -714,7 +719,7 @@ struct in_work handler_data;
 #define AL_TERR		0x4000
 
 struct BitMap *wb_bmap;
-struct Layer_Info *li, /* *NewLayerInfo() */ ;
+struct Layer_Info *li; /* *NewLayerInfo() */ ;
 struct Process *thistask /* , *FindTask() */ ;
 BPTR origDir;
 int trapper();
@@ -1078,7 +1083,7 @@ struct door_open {
 
 UBYTE *mapxy();
 
-doorfind(x,y,keytype) register USHORT x,y; register ULONG keytype;
+doorfind(x,y,keytype) register USHORT x,y; register unsigned long keytype;
 {	UBYTE sec_id; short reg_id, j, k; register ULONG l;
 	if (px_to_im(x,y)==15) goto found;
 	x += 4; if (px_to_im(x,y)==15) goto found;
@@ -1127,17 +1132,21 @@ found:
 extern char titletext[];
 
 void main(int argc,char argv[])
-{	register long i;
+{
+	register long i;
 	short j, k; char key;
 	short dif_x, dif_y, xstart, ystart, xstop, ystop;
 	unsigned short	xtest, ytest;
 	struct shape *an;
 		
 	if (argc == 0)
-	{	extern struct WBStartup *WBenchMsg;
+	{ struct WBStartup *WBenchMsg;
 
 		origDir = CurrentDir(WBenchMsg->sm_ArgList->wa_Lock);
 	}
+
+	DebugInit();
+	DebugPutStr("Welcome to FaeryTale Debugging\n");
 
 	light_timer = 0;
 	i = open_all();
@@ -3009,9 +3018,6 @@ struct MsgPort *inputDevPort;
 struct IOStdReq *inputRequestBlock;
 struct Interrupt handlerStuff;
 
-extern struct MsgPort *CreatePort();
-extern struct IOStdReq *CreateStdIO();
-
 extern HandlerInterface();
 
 add_device()
@@ -3628,4 +3634,32 @@ mod1save()
 
 	/* save missile list - mdex already saved */
 	saveload((void *)missile_list,6 * sizeof (struct missile));
+}
+
+short MakeBitMap(struct BitMap *b,LONG depth,LONG width,LONG height)
+{	register short i, success=TRUE; //PLANEPTR AllocRaster();
+
+	if (!b) return FALSE;
+	for (i=0; i<depth; i++) b->Planes[i] = NULL;	// set all planes = nonexistant 
+	InitBitMap(b,depth,width,height);				// initialize map 
+
+	for (i=0; i<depth && success; i++)				// allocate all planes 
+	{	if (!(b->Planes[i] = AllocRaster(width,height)) ) success = FALSE;  }
+	if (!success) UnMakeBitMap(b);					// if failure, de-allocate
+
+	return success;									// return TRUE or FALSE 
+}
+
+// de-allocate the rasters for this bit map 
+
+void UnMakeBitMap(struct BitMap *b)
+{	register short i;
+
+	for (i=0; i<b->Depth; i++)						// for each plane
+	{	if (b->Planes[i])							// if that plane exists
+		{	FreeRaster(b->Planes[i],b->BytesPerRow,b->Rows);	// free it
+			b->Planes[i] = NULL;					// mark as free 
+		}
+		b->Depth = 0;								// mark bitmap as empty 
+	}
 }

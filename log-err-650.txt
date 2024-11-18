@@ -1,0 +1,6 @@
+
+warning 51 in line 241 of "narr.asm": instruction has been auto-aligned
+>			move.l	4(sp),d0
+
+warning 51 in line 33 of "set_course.asm": instruction has been auto-aligned
+>		movem.l	d0-d7/a0-a1,-(sp)

@@ -87,31 +87,31 @@ dovoice		tst.l	trak_ptr(a3)	; check read head for presence of trak
 
 			move.l	timeclock(a1),d0	; current time reading
 			cmp.l	event_start(a3),d0	; next event scheduled
-			bpl.s	newnote
+			bpl	newnote
 
 			tst.b	vce_stat(a3)	; if sample going on,
 			bne		vocx			; don't interrupt it
 
 			cmp.l	event_stop(a3),d0	; end of event scheduled
-			bpl.s	rest_env
+			bpl	rest_env
 
 			tst.b	vol_delay(a3)	; delay value
-			bne.s	vocx
+			bne	vocx
 			move.l	vol_list(a3),a2	; pointer to envelope
 			move.b	(a2)+,d0		; d0 holds next volume value
-			bmi.s	vocx			; if negative, leave alone
+			bmi	vocx			; if negative, leave alone
 			move.b	d0,$a8(a4)		; set volume register
 			move.l	a2,vol_list(a3)	; reset pointer
-			bra.s	vocx			; next voice
+			bra	vocx			; next voice
 
 rest_env	
 			move.b	#0,$a8(a4)		; set volume register to zero
-			bra.s	vocx			; next trak
+			bra	vocx			; next trak
 
 dorestnote	
 			move.b	#0,$a8(a4)		; clear volume
 			move.l	timeclock(a1),event_stop(a3)	; KLUGE!!
-			bra.s	vocx
+			bra	vocx
  
 newnote
 			move.l	trak_ptr(a3),a2	; read head
@@ -148,14 +148,14 @@ note_comm
 			move.w	(a5,d2),d5		; note length in counts
 			move.l	d5,d4
 			sub.l	#300,d4			; gap size
-			bpl.s	nc1				; if note smaller than gap
+			bpl	nc1				; if note smaller than gap
 			move.l	d5,d4			; then no gap
 nc1			add.l	event_start(a3),d4	; event stop
 			move.l	d4,event_stop(a3)
 			add.l	d5,event_start(a3)	; event start recalculated
 
 			tst.b	vce_stat(a3)	; if sample, don't mess with it
-			bne.s	vocx
+			bne	vocx
 
 ; first get address of waveform
 
@@ -175,8 +175,8 @@ nc1			add.l	event_start(a3),d4	; event stop
 			clr.w	vol_delay(a3)		; clear volume delay, vce_stat
 
 			tst.b	d3				; 128 = rest
-			bmi.s	dorestnote		; do a rest
-;			bra.s	dorestnote		; do a rest
+			bmi	dorestnote		; do a rest
+;			bra	dorestnote		; do a rest
 
  			lsl.w	#2,d3			; note value * 4
 			move.w	ptable+2(pc,d3),d2	; d2	= offset value
@@ -248,7 +248,7 @@ set_tempo
 
 endtrak
 			tst.b	d2
-			bne.s	repeat
+			bne	repeat
 			clr.l	trak_ptr(a3)	; no trak
 			move.b	#-1,vol_delay(a3)	; no volume changes
 			move.w	#0,$a8(a4)		; clear out volume
@@ -267,13 +267,13 @@ audio_int
 			lea		vce_stat+voice2(a1),a2	; track status byte
 
 			tst.b	(a2)
-			beq.s	audx1	; if no sample, continue and turn int off
+			beq	audx1	; if no sample, continue and turn int off
 			subq.b	#1,(a2)				; decrement vce_status
-			bne.s	audx	; if sample not done, continue play
+			bne	audx	; if sample not done, continue play
 
 			move.w	#0,$b8(a0)			; shut off sample (reps?)
 			move.w	#2,$b6(a0)			; move period to register
-			beq.s	audx1				; don't re-enable interrupt
+			beq	audx1				; don't re-enable interrupt
 audx
 			move.w	#%1000000100000000,INTENA(a0) ; set bit 0
 audx1

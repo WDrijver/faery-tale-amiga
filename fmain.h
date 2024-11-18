@@ -1,4 +1,3 @@
-/* fmain.c */
 int open_all(void);
 int close_all(void);
 int read_sample(void);
@@ -27,3 +26,6 @@ int load_all(void);
 int load_new_region(void);
 int effect(int num, long speed);
 int mod1save(void);
+
+extern short MakeBitMap(struct BitMap *b,LONG depth,LONG width,LONG height);
+extern void UnMakeBitMap(struct BitMap *b);

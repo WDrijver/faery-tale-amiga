@@ -1,0 +1,45 @@
+vasm 1.9a (c) in 2002-2022 Volker Barthelmann
+vasm M68k/CPU32/ColdFire cpu backend 2.5f (c) 2002-2022 Frank Wille
+vasm motorola syntax module 3.16 (c) 2002-2022 Frank Wille
+vasm hunk format output module 2.14b (c) 2002-2022 Frank Wille
+
+CODE(acrx2):	          70 bytes
+vasm 1.9a (c) in 2002-2022 Volker Barthelmann
+vasm M68k/CPU32/ColdFire cpu backend 2.5f (c) 2002-2022 Frank Wille
+vasm motorola syntax module 3.16 (c) 2002-2022 Frank Wille
+vasm hunk format output module 2.14b (c) 2002-2022 Frank Wille
+
+CODE(acrx2):	        4592 bytes
+DATA(adrw1):	         516 bytes
+vasm 1.9a (c) in 2002-2022 Volker Barthelmann
+vasm M68k/CPU32/ColdFire cpu backend 2.5f (c) 2002-2022 Frank Wille
+vasm motorola syntax module 3.16 (c) 2002-2022 Frank Wille
+vasm hunk format output module 2.14b (c) 2002-2022 Frank Wille
+
+CODE(acrx2):	        1530 bytes
+DATA(adrw1):	         255 bytes
+vasm 1.9a (c) in 2002-2022 Volker Barthelmann
+vasm M68k/CPU32/ColdFire cpu backend 2.5f (c) 2002-2022 Frank Wille
+vasm motorola syntax module 3.16 (c) 2002-2022 Frank Wille
+vasm hunk format output module 2.14b (c) 2002-2022 Frank Wille
+
+DATA(adrw1):	        7348 bytes
+CODE(acrx2):	        2012 bytes
+vasm 1.9a (c) in 2002-2022 Volker Barthelmann
+vasm M68k/CPU32/ColdFire cpu backend 2.5f (c) 2002-2022 Frank Wille
+vasm motorola syntax module 3.16 (c) 2002-2022 Frank Wille
+vasm hunk format output module 2.14b (c) 2002-2022 Frank Wille
+
+CODE(acrx2):	         220 bytes
+vasm 1.9a (c) in 2002-2022 Volker Barthelmann
+vasm M68k/CPU32/ColdFire cpu backend 2.5f (c) 2002-2022 Frank Wille
+vasm motorola syntax module 3.16 (c) 2002-2022 Frank Wille
+vasm hunk format output module 2.14b (c) 2002-2022 Frank Wille
+
+CODE(acrx2):	          30 bytes
+vasm 1.9a (c) in 2002-2022 Volker Barthelmann
+vasm M68k/CPU32/ColdFire cpu backend 2.5f (c) 2002-2022 Frank Wille
+vasm motorola syntax module 3.16 (c) 2002-2022 Frank Wille
+vasm hunk format output module 2.14b (c) 2002-2022 Frank Wille
+
+CODE(acrx2):	          14 bytes

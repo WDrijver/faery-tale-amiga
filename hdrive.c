@@ -1,3 +1,4 @@
+#include "ftale.h"
 
 #define	SETFN(n)	openflags |= n
 #define TSTFN(n)	openflags & n

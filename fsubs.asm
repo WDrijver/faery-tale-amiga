@@ -25,7 +25,7 @@ ie_NextEvent	equ		0
 
 xwrap		macro
 			btst	#6,\1				; if 0-64, process normally
-			beq.s	98$
+			beq	98$
 			btst	#5,\1				; else wrap in various directions
 			seq		d2					; if zero, set to all 1's (mask 63)
 			and.w	#63,\1				; else set to all zero's
@@ -34,7 +34,7 @@ xwrap		macro
 
 ywrap		macro
 			btst	#5,\1
-			beq.s	99$
+			beq	99$
 			btst	#4,\1
 			seq		\1
 			and.w	#31,\1
@@ -73,29 +73,29 @@ handloop
 		move.b	4(a0),d0			; check event type
 
 		cmp.b	#TIMER,d0			; is it a raw key?
-		bne.s	checkkey
+		bne	checkkey
 		cmp.w	#16,22+128(a1)
-		beq.s	bang
+		beq	bang
 		addq.w	#1,22+128(a1)
-		bra.s	nomouse
+		bra	nomouse
 bang	move.b	#RAWKEY,4(a0)		; make an up shift
 		move.w	#($80+$60),6(a0)
 		move.w	#0,22+128(a1)
-		bra.s	nomouse
+		bra	nomouse
 
 checkkey
 		cmp.b	#RAWKEY,d0			; is it a raw key?
-		bne.s	notrawkey			; check other possibilities
+		bne	notrawkey			; check other possibilities
 
 		move.w	8(a0),d0			; get qualifier
 		btst	#9,d0				; a repeat?
-		bne.s	nomouse				; is so, ignore
+		bne	nomouse				; is so, ignore
 
 		move.w	6(a0),d0			; get raw key code
 		move.b	d0,d1				; save high bit
 		and.b	#$7f,d0				; turn off high bit
 		cmp.b	#$5a,d0				; ignore undefined keys
-		bhi.s	nomouse				; is so, ignore for now
+		bhi	nomouse				; is so, ignore for now
 
 		move.w	#$0000,4(a0)		; change to null event
 
@@ -109,28 +109,28 @@ checkkey
 		addq.b	#1,d1				; increment buffer
 		and.b	#$7f,d1				; and limit it
 		cmp.b	7(a1),d1			; same as pickup pointer?
-		beq.s	nomouse				; is so, overflow
+		beq	nomouse				; is so, overflow
 		move.b	d1,6(a1)			; otherwise, update buffer
-		bra.s	nomouse
+		bra	nomouse
 
 notrawkey
 		cmp.b	#RAWMOUSE,d0
-		bne.s	domouse
+		bne	domouse
 
 		move.w	8(a0),d1			; get qualifier
 		move.w	4(a1),d0
 		eor.w	d1,d0				; old xor new
 		and.w	#$4000,d0			; isolate left button bit
-		beq.s	nobutn				; left button not changed
+		beq	nobutn				; left button not changed
 
 		and.w	#$4000,d1			; test new bit value
-		bne.s	butndown			; if down, goto down trans
+		bne	butndown			; if down, goto down trans
 
 		move.b	9(a1),d1			; get old menu value
-		beq.s	nobutn				; if none, no action
+		beq	nobutn				; if none, no action
 		or.b	#$80,d1				; set up bit
 		clr.b	9(a1)				; clear old action
-		bra.s	butn10				; put it in the que
+		bra	butn10				; put it in the que
 
 butndown
 		clr.l	d1
@@ -138,18 +138,18 @@ butndown
 		move.w	ysprite(a1),d1
 
 		cmp.w	#215,d0				; in range for menu activation?
-		blo.s	nobutn
+		blo	nobutn
 		cmp.w	#265,d0
-		bhi.s	nobutn
+		bhi	nobutn
 
 		sub.w	#144,d1				; (my - 144)/9 + 'a'
-		bmi.s	nobutn
+		bmi	nobutn
 		divu.w	#9,d1
 		add.w	d1,d1
 		add.w	#$61,d1
 
 		cmp.w	#240,d0
-		blo.s	butn10
+		blo	butn10
 		addq	#1,d1
 butn10
 		move.w	d1,d0
@@ -160,7 +160,7 @@ butn10
 		addq.b	#1,d1				; increment buffer
 		and.b	#$7f,d1				; and limit it
 		cmp.b	7(a1),d1			; same as pickup pointer?
-		beq.s	nobutn				; is so, overflow
+		beq	nobutn				; is so, overflow
 		move.b	d1,6(a1)			; otherwise, update buffer
 		move.b	d0,9(a1)			; save menu choice
 nobutn
@@ -168,7 +168,7 @@ nobutn
 
 domouse
 		cmp.b	#DISKIN,d0
-		bne.s	domouse1
+		bne	domouse1
 		move.b	#1,8(a1)
 domouse1
 		move.w	xsprite(a1),d0		; get current coords
@@ -178,25 +178,25 @@ domouse1
 		add.w	ie_Y(a0),d1			; add to ysprite
 
 		cmp.w	#315,d0
-		blt.s	xhi
+		blt	xhi
 		move.w	#315,d0
 xhi
 		cmp.w	#5,d0
-		bgt.s	xlo
+		bgt	xlo
 		move.w	#5,d0
 xlo
 		cmp.w	#195,d1
-		blt.s	yhi
+		blt	yhi
 		move.w	#195,d1
 yhi
 		cmp.w	#147,d1
-		bgt.s	ylo
+		bgt	ylo
 		move.w	#147,d1
 ylo
 		move.w	d0,xsprite(a1)
 		move.w	d1,ysprite(a1)
 		tst.l	14(a1)				; do we have simplesprite?
-		beq.s	nosprite
+		beq	nosprite
 
 		movem.l	a0/a1/a6,-(sp)
 		add.w	d0,d0
@@ -211,7 +211,7 @@ nosprite
 nomouse
 		move.l	ie_NextEvent(a0),a0	; next event in chain
 		move.l	a0,d0				; set zero flag -- if null, quit
-		bne.s	handloop			; else process next
+		bne	handloop			; else process next
 
 		clr.l	d0
 
@@ -285,7 +285,7 @@ _getkey
 			clr.w	d1
 			move.b	7(a1),d1			; get pickup pointer
 			cmp.b	6(a1),d1			; if same as laydown
-			beq.s	getkeyx
+			beq	getkeyx
 			move.b	22(a1,d1.w),d0		; get key from buffer
 			addq	#1,d1
 			and.b	#$7f,d1				; buffer is 128 long
@@ -305,31 +305,31 @@ _rand
 			and.l	#$7fffffff,d0
 			rts
 
-_bitrand	bsr.s	_rand		; rand() & x
+_bitrand	bsr	_rand		; rand() & x
 			and.l	4(sp),d0
 			rts
 
-_rand2		bsr.s	_rand		; rand() & 1
+_rand2		bsr	_rand		; rand() & 1
 			and.l	#1,d0
 			rts
 
-_rand4		bsr.s	_rand		; rand() & 3
+_rand4		bsr	_rand		; rand() & 3
 			and.l	#3,d0
 			rts
 
-_rand8		bsr.s	_rand		; rand() & 7
+_rand8		bsr	_rand		; rand() & 7
 			and.l	#7,d0
 			rts
 
-_rand64		bsr.s	_rand		; rand() & 63
+_rand64		bsr	_rand		; rand() & 63
 			and.l	#63,d0
 			rts
 
-_rand256	bsr.s	_rand		; rand() & 255
+_rand256	bsr	_rand		; rand() & 255
 			and.l	#255,d0
 			rts
 
-_rnd		bsr.s	_rand		; rand() % x
+_rnd		bsr	_rand		; rand() % x
 			move.l	4(sp),d1
 			and.l	#$0000ffff,d0
 			divu.w	d1,d0		; d0 / n
@@ -342,7 +342,7 @@ _rnd		bsr.s	_rand		; rand() % x
 _prdec		
 			movem.l	a0-a6/d0-d7,-(sp)
 			move.l	60+4(sp),d0
-			bsr.s	ion6
+			bsr	ion6
 
 			add		#10,a0
 			move.l	60+8(sp),d0		; length
@@ -359,10 +359,10 @@ _ion
 ion6
 			lea		_numbuf,a0
 			moveq.l	#9,d1
-			bra.s	ion5
+			bra	ion5
 ion1
 			tst.w	d0
-			beq.s	ion2
+			beq	ion2
 ion5
 			divu.w	#10,d0
 			swap	d0
@@ -413,13 +413,13 @@ jloop
 		moveq	#4,d4			; k loop
 kloop	moveq	#1,d0			; color
 		tst.w	d4
-		bne.s	kloop2
+		bne	kloop2
 		add.w	#23,d0
 kloop2	jsr		SetAPen(a6)
 
 		move.l	(sp),d0
 		cmp.l	#9,d0
-		bls.s	kloop3
+		bls	kloop3
 
 		move.l	d6,d0			; xorg
 		move.l	d7,d1			; yorg
@@ -501,9 +501,9 @@ _ssp
 ssp10
 			move.l	a0,a2
 			move.b	(a0)+,d0
-			beq.s	sspx
+			beq	sspx
 			cmp.b	#XY,d0
-			beq.s	setxy
+			beq	setxy
 
 ; here's where we actually print the text
 
@@ -511,17 +511,17 @@ ssp10
 			clr.l	d0
 ssp20
 			tst.b	(a2)+
-			beq.s	endstring
-			bmi.s	endstring
+			beq	endstring
+			bmi	endstring
 			addq	#1,d0		; add 1 to length
-			bra.s	ssp20
+			bra	ssp20
 endstring
 			movem.l	a0-a6/d0-d7,-(sp)
 			move.l	_GfxBase,a6
 			jsr		Text(a6)
 			movem.l	(sp)+,a0-a6/d0-d7
 			add.w	d0,a0		; add length to pointer
-			bra.s	ssp10
+			bra	ssp10
 
 setxy		clr.l	d0
 			clr.l	d1
@@ -530,7 +530,7 @@ setxy		clr.l	d0
 			add.w	d0,d0		; x * 2
 			move.l	_GfxBase,a6
 			jsr		Move(a6)
-			bra.s	ssp10
+			bra	ssp10
 sspx
 			movem.l	(sp)+,a0-a2/d0-d1
 			rts			
@@ -547,15 +547,15 @@ px_to_im
 
 		move.b	#$80,d4				; 1 bit, high position
 		btst	#3,d0				; test bit 3 of x
-		beq.s	px01
+		beq	px01
 		lsr.b	#4,d4				; select 1-4, 5-8
 px01
 		btst	#3,d1				; test bit 3 of y
-		beq.s	px02
+		beq	px02
 		lsr.b	#1,d4				; select 1/2
 px02
 		btst	#4,d1				; test bit 4 of x
-		beq.s	px03
+		beq	px03
 		lsr.b	#2,d4				; select 1-2, 3-4
 px03
 
@@ -567,7 +567,7 @@ px03
 		sub.w	_xreg,d2
 
 		btst	#6,d2				; if 0-64, process normally
-		beq.s	px20
+		beq	px20
 
 		btst	#5,d2				; else wrap in varios directions
 		seq		d2					; if zero, set to all 1's (mask 63)
@@ -577,10 +577,10 @@ px20
 		move.w	d1,d3
 		lsr.w	#3,d3				; secy = imy / 8 - yreg
 		sub.w	_yreg,d3
-		bpl.s	px30
+		bpl	px30
 		clr.w	d3					; if secy < 0, secy = 0;
 px30	cmp.w	#32,d3
-		blt.s	px40
+		blt	px40
 		moveq	#31,d3				; if secy > 31, secx = 31
 px40
 		lsl.w	#7,d3				; sec_num = secy * 128 + secx + xreg
@@ -608,7 +608,7 @@ px40
 		add.w	d1,d1
 		move.l	_terra_mem,a1
 		and.b	2(a1,d1.w),d4		; tbit & tiles[image]
-		beq.s	px99				; if no tile, return zero
+		beq	px99				; if no tile, return zero
 
 		move.b	1(a1,d1.w),d0
 		lsr.b	#4,d0				; terrain tile type
@@ -683,43 +683,43 @@ _map_draw
 		clr.l	d7					; clear upper part
 
 		move.w	#0,d5
-		bsr.s	next_strip
+		bsr	next_strip
 		move.w	#2,d5
-		bsr.s	next_strip
+		bsr	next_strip
 		move.w	#4,d5
-		bsr.s	next_strip
+		bsr	next_strip
 		move.w	#6,d5
-		bsr.s	next_strip
+		bsr	next_strip
 		move.w	#8,d5
-		bsr.s	next_strip
+		bsr	next_strip
 		move.w	#10,d5
-		bsr.s	next_strip
+		bsr	next_strip
 		move.w	#12,d5
-		bsr.s	next_strip
+		bsr	next_strip
 		move.w	#14,d5
-		bsr.s	next_strip
+		bsr	next_strip
 		move.w	#16,d5
-		bsr.s	next_strip
+		bsr	next_strip
 		move.w	#18,d5
-		bsr.s	next_strip
+		bsr	next_strip
 		move.w	#20,d5
-		bsr.s	next_strip
+		bsr	next_strip
 		move.w	#22,d5
-		bsr.s	next_strip
+		bsr	next_strip
 		move.w	#24,d5
-		bsr.s	next_strip
+		bsr	next_strip
 		move.w	#26,d5
-		bsr.s	next_strip
+		bsr	next_strip
 		move.w	#28,d5
-		bsr.s	next_strip
+		bsr	next_strip
 		move.w	#30,d5
-		bsr.s	next_strip
+		bsr	next_strip
 		move.w	#32,d5
-		bsr.s	next_strip
+		bsr	next_strip
 		move.w	#34,d5
-		bsr.s	next_strip
+		bsr	next_strip
 		move.w	#36,d5
-		bsr.s	next_strip
+		bsr	next_strip
 
 		addq.l	#4,sp
 		movem.l	(sp)+,d0-d7/a0-a6
@@ -730,23 +730,23 @@ _map_draw
 
 next_strip
 		move.w	(a6)+,d7			; character number
-		bsr.s	next_image
+		bsr	next_image
 		move.w	(a6)+,d7			; character number
-		bsr.s	next_image
+		bsr	next_image
 		move.w	(a6)+,d7			; character number
-		bsr.s	next_image
+		bsr	next_image
 		move.w	(a6)+,d7			; character number
-		bsr.s	next_image
+		bsr	next_image
 		move.w	(a6)+,d7			; character number
-		bsr.s	next_image
+		bsr	next_image
 		move.w	(a6)+,d7			; character number
-		bsr.s	next_image
+		bsr	next_image
 		rts
 
 next_image
 ;		rts
 ; check for zero (no update character)
-; 		beq.s	no_image
+; 		beq	no_image
 		lsl.l	#6,d7				; char number * 64 bytes per char
 		move.l	8(sp),a5			; a5 = image_mem + d7
 ;		add.l	d7,a5
@@ -809,7 +809,7 @@ _strip_draw
 		clr.l	d7					; clear upper part
 
 ;		move.w	#0,d5
-		bsr.s	next_strip
+		bsr	next_strip
 
 		addq.l	#4,sp
 		movem.l	(sp)+,d0-d7/a0-a6
@@ -842,43 +842,43 @@ _row_draw
 
 		clr.l	d7					; clear upper part
 
-		bsr.s	next_char
+		bsr	next_char
 		addq.l	#2,d0
-		bsr.s	next_char
+		bsr	next_char
 		addq.l	#2,d0
-		bsr.s	next_char
+		bsr	next_char
 		addq.l	#2,d0
-		bsr.s	next_char
+		bsr	next_char
 		addq.l	#2,d0
-		bsr.s	next_char
+		bsr	next_char
 		addq.l	#2,d0
-		bsr.s	next_char
+		bsr	next_char
 		addq.l	#2,d0
-		bsr.s	next_char
+		bsr	next_char
 		addq.l	#2,d0
-		bsr.s	next_char
+		bsr	next_char
 		addq.l	#2,d0
-		bsr.s	next_char
+		bsr	next_char
 		addq.l	#2,d0
-		bsr.s	next_char
+		bsr	next_char
 		addq.l	#2,d0
-		bsr.s	next_char
+		bsr	next_char
 		addq.l	#2,d0
-		bsr.s	next_char
+		bsr	next_char
 		addq.l	#2,d0
-		bsr.s	next_char
+		bsr	next_char
 		addq.l	#2,d0
-		bsr.s	next_char
+		bsr	next_char
 		addq.l	#2,d0
-		bsr.s	next_char
+		bsr	next_char
 		addq.l	#2,d0
-		bsr.s	next_char
+		bsr	next_char
 		addq.l	#2,d0
-		bsr.s	next_char
+		bsr	next_char
 		addq.l	#2,d0
-		bsr.s	next_char
+		bsr	next_char
 		addq.l	#2,d0
-		bsr.s	next_char
+		bsr	next_char
 
 		addq.l	#4,sp
 		movem.l	(sp)+,d0-d7/a0-a6
@@ -917,28 +917,28 @@ _bigdraw
 			sub.w	_yreg,d1
 
 			cmp.w	#32,d0
-			bge.s	big10
+			bge	big10
 			add.w	#128,d0
 big10		cmp.w	#96,d0
-			ble.s	big20
+			ble	big20
 			sub.w	#128,d0
 big20		cmp.w	#32,d1
-			bge.s	big30
+			bge	big30
 			add.w	#128,d1
 big30		cmp.w	#96,d1
-			ble.s	big40
+			ble	big40
 			sub.w	#128,d1
 big40		cmp.w	#0,d0
-			bge.s	big50
+			bge	big50
 			clr.w	d0
 big50		cmp.w	#64-18,d0
-			ble.s	big60
+			ble	big60
 			move.w	#64-18,d0
 big60		cmp.w	#0,d1
-			bge.s	big70
+			bge	big70
 			clr.w	d1
 big70		cmp.w	#32-9,d1
-			ble.s	big80
+			ble	big80
 			move.w	#32-9,d1
 big80
 			move.l	d0,_secx
@@ -965,12 +965,12 @@ big110
 
 			addq	#1,d3
 			cmp.w	#18,d3
-			blt.s	big110
+			blt	big110
 
 			add.l	#(40*15)+4,d7	; add to offset
 			addq	#1,d2
 			cmp.w	#9,d2
-			blt.s	big100
+			blt	big100
 
 			movem.l  (sp)+,d1-d7/a0-a6 ; restore regs
 			rts
@@ -1094,7 +1094,7 @@ mapxy
 		sub.w	_xreg,d2
 
 		btst	#6,d2				; if 0-64, process normally
-		beq.s	mxy20
+		beq	mxy20
 
 		btst	#5,d2				; else wrap in varios directions
 		seq		d2					; if zero, set to all 1's (mask 63)
@@ -1104,7 +1104,7 @@ mxy20
 		lsr.w	#3,d3				; secy = imy / 8 - yreg
 		sub.w	_yreg,d3
 		btst	#5,d3
-		beq.s	mxy30
+		beq	mxy30
 		btst	#4,d3
 		seq		d3
 		and.w	#31,d3
@@ -1150,7 +1150,7 @@ gen10
 		lsr.w	#4,d3
 		sub.w	_xreg,d3		; xs = (x>>4) - xreg;
 		btst	#6,d3				; if 0-64, process normally
-		beq.s	gen16
+		beq	gen16
 
 		btst	#5,d3				; else wrap in varios directions
 		seq		d3					; if zero, set to all 1's (mask 63)
@@ -1168,11 +1168,11 @@ gen20
 		move.w	d4,d5			; ys = y
 		lsr.w	#3,d5			; ys = (y>>3) - yreg;
 		sub.w	_yreg,d5
-		bpl.s	gen25
+		bpl	gen25
 		clr.w	d5
 gen25
 		cmp.w	#32,d5
-		blo.s	gen26			; if (ys > 31) ys = 31;
+		blo	gen26			; if (ys > 31) ys = 31;
 		move.w	#31,d5
 gen26
 		lsl.w	#7,d5			; sec_num = map_mem[xs + (ys<<7)];
@@ -1198,12 +1198,12 @@ gen26
 
 		addq	#1,d7
 		cmp.w	#6,d7			; next j
-		blt.s	gen20
+		blt	gen20
 
 		addq	#1,d1			; img_x++
 		addq	#1,d6
 		cmp.w	#19,d6			; next i
-		blt.s	gen10
+		blt	gen10
 
 		clr.l	d0
 		clr.l	d1
@@ -1216,7 +1216,7 @@ gen26
 		move.b	(a1,d0),d2
 		move.w	_region_num,d0
 		cmp.b	#7,d0
-		bls.s	loc10
+		bls	loc10
 		add.w	#256,d2
 loc10	move.w	d2,_hero_sector
 
@@ -1228,14 +1228,14 @@ loc10	move.w	d2,_hero_sector
 _unpack_line
 		move.l	d2,-(sp)
 		tst.b	_compress
-		bne.s	unpack_line2
+		bne	unpack_line2
 ;_unpack_line1
 		move.l	4+4(sp),a0	; a0 = dest
 		move.l	_bytecount,d1
 		move.l	_packdata,a1
 
 		subq	#1,d1		; bytecount -1
-		bmi.s	upl20
+		bmi	upl20
 upl10	move.b	(a1)+,(a0)+
 		dbra	d1,upl10
 upl20	move.l	a1,_packdata
@@ -1250,12 +1250,12 @@ unpack_line2
 
 upl30	clr.w	d0				; clear upper half
 		move.b	(a1)+,d0		; d0 = upc
-		bmi.s	upl35			; if j < 0 repeat else lit
+		bmi	upl35			; if j < 0 repeat else lit
 upl32	addq.l	#1,d2			; add 1 to j
 		move.b	(a1)+,(a0)+		; *des++ = *packdata++
 		dbra	d0,upl32
 
-		bra.s	upl39
+		bra	upl39
 
 upl35	neg.b	d0				; upc = -upc /* branch overflow?? */
 		move.b	(a1)+,d3		; d3 = byte run byte
@@ -1264,7 +1264,7 @@ upl36	addq.l	#1,d2			; j++
 		dbra	d0,upl36		; while (upc >= 0) loop
 
 upl39	cmp.l	_bytecount,d2	; if (j<bytecount) continue;
-		blo.s	upl30
+		blo	upl30
 upl40
 		move.l	a1,_packdata
 		move.l	(sp)+,d2
@@ -1282,7 +1282,7 @@ _newx
 		move.l	4+8(sp),d0	; x coord
 		move.l	8+8(sp),d2	; direction
 		cmp.b	#7,d2		; if direction greater than 7, exit
-		bhi.s	newxx
+		bhi	newxx
 		move.l	12+8(sp),d3	; speed
 
 		lea		xdir,a0		; a0 = xdir
@@ -1300,7 +1300,7 @@ _newy
 		move.l	4+8(sp),d0	; y coord
 		move.l	8+8(sp),d2	; direction
 		cmp.b	#7,d2		; if direction greater than 7, eyit
-		bhi.s	newyy
+		bhi	newyy
 		move.l	12+8(sp),d3	; speed
 
 		move.l	d0,d1		; save high bit
@@ -1349,7 +1349,7 @@ newyy	movem.l	(sp)+,d2/d3
 _wrap
 		move.l	4(sp),d0
 		btst	#14,d0
-		beq.s	wrap1
+		beq	wrap1
 		or.w	#$8000,d0
 		rts
 wrap1	and.w	#$7fff,d0
@@ -1375,48 +1375,48 @@ _map_adjust
 
 checkx
 		cmp.w	#-70,d2
-		bge.s	cx10
+		bge	cx10
 		add.w	#70,d0
 		move.w	d0,_map_x
-		bra.s	checky
+		bra	checky
 cx10
 		cmp.w	#70,d2
-		ble.s	cx20
+		ble	cx20
 		sub.w	#70,d0
 		move.w	d0,_map_x
-		bra.s	checky
+		bra	checky
 cx20
 		cmp.w	#-20,d2
-		bge.s	cx30
+		bge	cx30
 		sub.w	#1,_map_x
-		bra.s	checky
+		bra	checky
 cx30
 		cmp.w	#20,d2
-		ble.s	checky
+		ble	checky
 		add.w	#1,_map_x
-		bra.s	checky
+		bra	checky
 checky
 		cmp.w	#-24,d3
-		bge.s	cy10
+		bge	cy10
 		add.w	#24,d1
 		move.w	d1,_map_y
-		bra.s	check99
+		bra	check99
 cy10
 		cmp.w	#44,d3
-		ble.s	cy20
+		ble	cy20
 		sub.w	#44,d1
 		move.w	d1,_map_y
-		bra.s	check99
+		bra	check99
 cy20
 		cmp.w	#-10,d3
-		bge.s	cy30
+		bge	cy30
 		sub.w	#1,_map_y
-		bra.s	check99
+		bra	check99
 cy30
 		cmp.w	#10,d3
-		ble.s	check99
+		ble	check99
 		add.w	#1,_map_y
-		bra.s	check99
+		bra	check99
 check99
 		movem.l	(sp)+,d2/d3
 		rts
@@ -1426,7 +1426,7 @@ errms	dc.b	"ERROR "
 _do_error
 		move.l	4(sp),d0
 		cmp.w	#2,d0		; can't print if GfxBase not open
-		beq.s	doerrx
+		beq	doerrx
 		pea		90
 		pea		200
 		bsr		_move
@@ -1455,27 +1455,27 @@ _page_det
 		clr.l	d0
 		move.b	(a0,d1.w),d0
 		cmp.w	#11,d1
-		blt.s	pagex
+		blt	pagex
 
 		moveq	#10,d0
 		cmp.w	#136,d1
-		bgt.s	pagex
+		bgt	pagex
 
 		moveq	#7,d0
 		cmp.w	#135,d1
-		bgt.s	pagex
+		bgt	pagex
 
 		moveq	#6,d0
 		cmp.w	#123,d1
-		bgt.s	pagex
+		bgt	pagex
 
 		moveq	#5,d0
 		cmp.w	#98,d1
-		bgt.s	pagex
+		bgt	pagex
 
 		moveq	#4,d0
 		cmp.w	#71,d1
-		bgt.s	pagex
+		bgt	pagex
 
 		moveq	#3,d0
 pagex	
@@ -1492,39 +1492,39 @@ _decode_mouse
 		lea		_handler_data,a0
 		move.w	qualifier(a0),d2
 		and.w	#$6000,d2			; test for buttons down
-		beq.s	decodejoy
+		beq	decodejoy
 
 		move.w	xsprite(a0),d0		; mouse pointer x
 		move.w	ysprite(a0),d1		; mouse pointer y
 
 		moveq	#9,d2				; no direction
 		cmp.w	#265,d0
-		ble.s	setcomp
+		ble	setcomp
 
 ; left column
 		moveq	#0,d2				; up
 		moveq	#7,d3				; center
 		moveq	#6,d4				; down
 		cmp.w	#292,d0
-		blt.s	findy
+		blt	findy
 ; right column
 		moveq	#2,d2				; up
 		moveq	#3,d3				; center
 		moveq	#4,d4				; down
 		cmp.w	#300,d0
-		bgt.s	findy
+		bgt	findy
 ; middle column
 		moveq	#1,d2				; up
 		moveq	#9,d3				; center
 		moveq	#5,d4				; down
 findy
 		cmp.w	#166,d1				; d2 already equals upper
-		blt.s	setcomp
+		blt	setcomp
 		move.w	d4,d2				; d2 now equals lower
 		cmp.w	#174,d1
-		bgt.s	setcomp
+		bgt	setcomp
 		move.w	d3,d2
-		bra.s	setcomp
+		bra	setcomp
 
 decodejoy						; read joystick
 		lea		$dff000,a0		; sysregs
@@ -1547,7 +1547,7 @@ decodejoy						; read joystick
 
 		move.b	d3,d0			; (if joystick center)
 		or.b	d2,d0			; if both zeroes then try reading keyboard
-		beq.s	decodekey
+		beq	decodekey
 
 		moveq	#4,d0			; d0 = 4 + xjoy*3 + yjoy
 		add.b	d3,d0			; this formula gives a unique number
@@ -1559,16 +1559,16 @@ decodejoy						; read joystick
 		clr.l	d2
 		move.b	(a0,d0.w),d2	; joystick direction
 		move.w	#1,_keydir		; into keydir
-		bra.s	setcomp
+		bra	setcomp
 
 decodekey
 		clr.l	d2
 		move.w	_keydir,d2	; if key => 20 && key < 30 then dir = key-20
 		sub.w	#20,d2
-		bmi.s	decodenull
+		bmi	decodenull
 		cmp.w	#10,d2
-		bge.s	decodenull
-		bra.s	setcomp
+		bge	decodenull
+		bra	setcomp
 		
 decodenull
 		moveq	#9,d2
@@ -1576,7 +1576,7 @@ decodenull
 		
 setcomp
 		cmp.w	_oldir,d2			; if dir != oldir
-		beq.s	setcompx
+		beq	setcompx
 		move.w	d2,_oldir			; oldir = dir
 		move.l	d2,-(sp)
 		jsr		_drawcompass		; drawcompass(dir)
@@ -1594,9 +1594,9 @@ _prox
 		addq	#2,d1				; y + 2
 		bsr		px_to_im
 		cmp.w	#1,d0				; if blocked
-		beq.s	prox99
+		beq	prox99
 		cmp.w	#10,d0				; if n.a. blocked
-		bge.s	prox99
+		bge	prox99
 
 		move.l	4(sp),d0
 		move.l	8(sp),d1
@@ -1604,9 +1604,9 @@ _prox
 		addq	#2,d1				; y + 2
 		bsr		px_to_im
 		cmp.w	#1,d0				; if blocked
-		beq.s	prox99
+		beq	prox99
 		cmp.w	#8,d0				; if n.a. blocked
-		bge.s	prox99
+		bge	prox99
 		clr.l	d0
 prox99	rts
 
@@ -1752,7 +1752,7 @@ _scrollmap
 
 		btst	#6,DMACONR(a0)		; wait for blitter free
 		btst	#6,DMACONR(a0)
-		beq.s	1$
+		beq	1$
 		move.l	_GfxBase,a6
 		jsr		WaitBlit(a6)
 1$
@@ -1851,7 +1851,7 @@ sb05
 
 		btst	#6,DMACONR(a0)		; wait for blitter free
 		btst	#6,DMACONR(a0)
-		beq.s	1$
+		beq	1$
 		move.l	_GfxBase,a6
 		jsr		WaitBlit(a6)
 1$
@@ -1869,7 +1869,7 @@ sb05
 		and.w	_wmask,d2
 		move.w	d2,BLTAFWM(a0)
 		not.w	d1
-		bne.s	sb10
+		bne	sb10
 		move.w	#-1,d1
 sb10
 		move.w	d1,BLTALWM(a0)
@@ -1913,7 +1913,7 @@ _mask_blit
 
 		btst	#6,DMACONR(a0)		; wait for blitter free
 		btst	#6,DMACONR(a0)
-		beq.s	1$
+		beq	1$
 		move.l	_GfxBase,a6
 		jsr		WaitBlit(a6)
 1$
@@ -1967,7 +1967,7 @@ _save_blit
 
 		btst	#6,DMACONR(a0)	; wait for blitter free
 		btst	#6,DMACONR(a0)
-		beq.s	1$
+		beq	1$
 		move.l	_GfxBase,a6
 		jsr		WaitBlit(a6)
 1$
@@ -2018,7 +2018,7 @@ _rest_blit
 
 		btst	#6,DMACONR(a0)	; wait for blitter free
 		btst	#6,DMACONR(a0)
-		beq.s	1$
+		beq	1$
 		move.l	_GfxBase,a6
 		jsr		WaitBlit(a6)
 1$
