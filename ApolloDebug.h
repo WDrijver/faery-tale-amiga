@@ -91,14 +91,14 @@ UWORD reg_r(ULONG reg);
 
 #endif /* HARDWARE_INTBITS_H */
 
-extern void DebugInit(void);
-extern int DebugPutChar(register int chr);
-extern int DebugMayGetChar(void);
+void DebugInit(void);
+int DebugPutChar(register int chr);
+int DebugMayGetChar(void);
 
-extern void DebugPutStr(register const char *buff);
-extern void DebugPutHex(const char *what, ULONG val);
-extern void DebugPutDec(const char *what, ULONG val);
-extern void DebugPutHexVal(ULONG val);
+void DebugPutStr(register const char *buff);
+void DebugPutHex(const char *what, ULONG val);
+void DebugPutDec(const char *what, ULONG val);
+void DebugPutHexVal(ULONG val);
 
 #ifdef __cplusplus
 }

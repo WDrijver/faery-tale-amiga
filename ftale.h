@@ -4,6 +4,9 @@
 #include <stddef.h>
 
 #include "ApolloDebug.h"
+#include "ApolloCPUDelay.h"
+
+#include "iffsubs.h"
 
 #include "graphics/text.h"
 #include "graphics/gfxbase.h"

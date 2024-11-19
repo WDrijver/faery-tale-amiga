@@ -3,12 +3,8 @@
 ;% = character name
 ;$ = who we are speaking to??
 
-		dseg
+		section event_messages, data
 		
-		XDEF	_place_msg
-		XDEF	_inside_msg
-		XDEF	_place_tbl
-		XDEF	_inside_tbl
 		XDEF	_event_msg
 
 		XREF	_print_cont
@@ -62,7 +58,8 @@ _event_msg
 		dc.b	'% discovered a hidden object.',0
 ; what if monster attacks you when you are sleeping?
 
-		cseg
+		section question, code
+
 		XDEF	_question
 
 _question
@@ -86,7 +83,12 @@ q7		dc.b	'Defy Ye that...?',0
 q8		dc.b	'In black darker than...?',0
 		dc.w	0
 
-		dseg
+		section place_inside_messages, data
+
+		XDEF	_place_tbl
+		XDEF	_inside_tbl
+		XDEF	_place_msg
+		XDEF	_inside_msg
 
 _place_tbl
 		dc.b	51,51,19		; small keep
@@ -230,14 +232,15 @@ _inside_msg
 			dc.b	"He walked into the cabin.",0
 			dc.b	"He unlocked the door and entered.",0
 
-			cseg
+			section placard_text, code
 
 XY			equ		128		; then x/2 then y
 ETX			equ		0
 
-			XDEF	_ssp,_placard_text
+			XDEF	_placard_text
+			XREF	_ssp
 
-_placard_text
+_placard_text:
 			move.l	4(sp),d0
 			add.w	d0,d0
 			add.w	d0,d0
@@ -350,7 +353,9 @@ msg12		dc.b	XY,128/2,19,"So..."
 			dc.b	XY,10/2,95,"then, these three questions and prove"
 			dc.b	XY,10/2,105,"your fitness to be their advisor:"
 			dc.b	ETX
-			dseg
+			
+			section speech_data, data
+
 			XDEF	_speeches
 
 _speeches

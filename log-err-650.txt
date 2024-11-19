@@ -1,6 +1,1281 @@
-
-warning 51 in line 241 of "narr.asm": instruction has been auto-aligned
->			move.l	4(sp),d0
+In file included from ftale.h:9:0,
+                 from fmain.c:3:
+iffsubs.h:2:57: warning: 'struct BitMap' declared inside parameter list will not be visible outside of this definition or declaration
+ extern void unpackbrush(unsigned char *filename, struct BitMap *bitmap, int x, int y);
+                                                         ^~~~~~
+fmain.c:67:8: warning: initialization makes integer from pointer without a cast [-Wint-conversion]
+  { 4,  NULL,0,0,0, 9 }, /* 10 - Woodcutter */
+        ^~~~
+fmain.c:67:8: note: (near initialization for 'encounter_chart[10].agressive')
+fmain.c:733:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ open_all()
+ ^~~~~~~~
+fmain.c: In function 'open_all':
+fmain.c:742:35: warning: implicit declaration of function 'OpenLibrary' [-Wimplicit-function-declaration]
+  if ((GfxBase = (struct GfxBase *)OpenLibrary("graphics.library",0)) == NULL) return 2;
+                                   ^~~~~~~~~~~
+fmain.c:743:18: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+  if ((LayersBase = OpenLibrary("layers.library",0)) == NULL) return 2;
+                  ^
+fmain.c:749:7: warning: implicit declaration of function 'NewLayerInfo' [-Wimplicit-function-declaration]
+  li = NewLayerInfo();
+       ^~~~~~~~~~~~
+fmain.c:749:5: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+  li = NewLayerInfo();
+     ^
+fmain.c:750:2: warning: implicit declaration of function 'InitRastPort' [-Wimplicit-function-declaration]
+  InitRastPort(&rp_map);
+  ^~~~~~~~~~~~
+fmain.c:759:2: warning: implicit declaration of function 'SetBPen' [-Wimplicit-function-declaration]
+  SetBPen(rp,0);
+  ^~~~~~~
+fmain.c:760:2: warning: implicit declaration of function 'SetDrMd' [-Wimplicit-function-declaration]
+  SetDrMd(rp,JAM2);
+  ^~~~~~~
+fmain.c:761:2: warning: implicit declaration of function 'SetRast' [-Wimplicit-function-declaration]
+  SetRast(rp,0);  /* clear workbench screen (not!) */
+  ^~~~~~~
+fmain.c:764:20: warning: implicit declaration of function 'AllocMem' [-Wimplicit-function-declaration]
+   (struct BitMap *)AllocMem(5*BM_SIZE,MEMF_CHIP | MEMF_CLEAR)) == NULL )
+                    ^~~~~~~~
+fmain.c:768:10: warning: implicit declaration of function 'AllocDiskIO' [-Wimplicit-function-declaration]
+  if (i = AllocDiskIO()) return i;
+          ^~~~~~~~~~~
+fmain.c:782:39: warning: comparison between pointer and integer
+  if ((seg = LoadSeg("fonts/Amber/9")) == NULL) return 15;
+                                       ^~
+fmain.c:786:10: warning: implicit declaration of function 'OpenFont' [-Wimplicit-function-declaration]
+  tfont = OpenFont(&topaz_ta);
+          ^~~~~~~~
+fmain.c:786:8: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+  tfont = OpenFont(&topaz_ta);
+        ^
+fmain.c:787:2: warning: implicit declaration of function 'SetFont' [-Wimplicit-function-declaration]
+  SetFont(&rp_text,tfont);
+  ^~~~~~~
+fmain.c:798:31: warning: implicit declaration of function 'FindTask' [-Wimplicit-function-declaration]
+  thistask = (struct Process *)FindTask(0);
+                               ^~~~~~~~
+fmain.c:804:2: warning: implicit declaration of function 'FreeSprite' [-Wimplicit-function-declaration]
+  FreeSprite(0);
+  ^~~~~~~~~~
+fmain.c:805:2: warning: implicit declaration of function 'GetSprite' [-Wimplicit-function-declaration]
+  GetSprite(&pointer,0); /* test for error */
+  ^~~~~~~~~
+fmain.c:807:2: warning: implicit declaration of function 'InitView' [-Wimplicit-function-declaration]
+  InitView(&v);    /* initialize view */
+  ^~~~~~~~
+fmain.c:809:2: warning: implicit declaration of function 'InitVPort' [-Wimplicit-function-declaration]
+  InitVPort(&vp_page);  /* init view ports */
+  ^~~~~~~~~
+fmain.c:834:2: warning: implicit declaration of function 'InitBitMap' [-Wimplicit-function-declaration]
+  InitBitMap(bm_page1,PAGE_DEPTH,PHANTA_WIDTH,RAST_HEIGHT);
+  ^~~~~~~~~~
+fmain.c:873:26: warning: implicit declaration of function 'AllocRaster' [-Wimplicit-function-declaration]
+  { bm_page1->Planes[i] = AllocRaster(PHANTA_WIDTH,RAST_HEIGHT);
+                          ^~~~~~~~~~~
+fmain.c:873:24: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+  { bm_page1->Planes[i] = AllocRaster(PHANTA_WIDTH,RAST_HEIGHT);
+                        ^
+fmain.c:875:23: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+   bm_page2->Planes[i] = AllocRaster(PHANTA_WIDTH,RAST_HEIGHT);
+                       ^
+fmain.c:895:2: warning: implicit declaration of function 'MakeVPort' [-Wimplicit-function-declaration]
+  MakeVPort( &v, &vp_text );
+  ^~~~~~~~~
+fmain.c:899:35: warning: implicit declaration of function 'CreateExtIO' [-Wimplicit-function-declaration]
+   if (ioaudio = (struct IOAudio *)CreateExtIO(audioport,sizeof *ioaudio))
+                                   ^~~~~~~~~~~
+fmain.c:905:9: warning: implicit declaration of function 'OpenDevice' [-Wimplicit-function-declaration]
+    if (!OpenDevice("audio.device", 0L, &ioaudio->ioa_Request,0L))
+         ^~~~~~~~~~
+fmain.c:909:5: warning: implicit declaration of function 'BeginIO' [-Wimplicit-function-declaration]
+     BeginIO(&ioaudio->ioa_Request);
+     ^~~~~~~
+fmain.c:912:6: warning: implicit declaration of function 'WaitIO' [-Wimplicit-function-declaration]
+      WaitIO(&ioaudio->ioa_Request);
+      ^~~~~~
+fmain.c:919:14: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+  if ((wavmem = AllocMem(VOICE_SZ,MEMF_CHIP)) == NULL) return 16;
+              ^
+fmain.c:920:16: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+  if ((scoremem = AllocMem(SCORE_SZ,0)) == NULL) return 17;
+                ^
+fmain.c:922:2: warning: implicit declaration of function 'init_music' [-Wimplicit-function-declaration]
+  init_music(new_wave,wavmem,volmem);
+  ^~~~~~~~~~
+fmain.c:925:17: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+  if ((image_mem = AllocMem(IMAGE_SZ,MEMF_CHIP)) == NULL) return 6;
+                 ^
+fmain.c:927:18: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+  if ((sector_mem = AllocMem(SECTOR_SZ,MEMF_CHIP)) == NULL) return 7;
+                  ^
+fmain.c:930:17: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+  if ((shape_mem = AllocMem(SHAPE_SZ,MEMF_CHIP)) == NULL) return 8;
+                 ^
+fmain.c:932:18: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+  if ((shadow_mem = AllocMem(SHADOW_SZ,MEMF_CHIP)) == NULL) return 10;
+                  ^
+fmain.c:934:18: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+  if ((sample_mem = AllocMem(SAMPLE_SZ,MEMF_CHIP)) == NULL) return 11;
+                  ^
+fmain.c:936:17: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+  if ((terra_mem = AllocMem(1024,MEMF_CHIP)) == NULL) return 34;
+                 ^
+fmain.c:939:13: warning: implicit declaration of function 'Open' [-Wimplicit-function-declaration]
+  if (file = Open("v6",1005))
+             ^~~~
+fmain.c:940:4: warning: implicit declaration of function 'Read' [-Wimplicit-function-declaration]
+  { Read(file,wavmem,S_WAVBUF);
+    ^~~~
+fmain.c:941:3: warning: implicit declaration of function 'Seek' [-Wimplicit-function-declaration]
+   Seek(file,S_WAVBUF,0);
+   ^~~~
+fmain.c:943:3: warning: implicit declaration of function 'Close' [-Wimplicit-function-declaration]
+   Close(file);
+   ^~~~~
+fmain.c:950:2: warning: implicit declaration of function 'ChangeSprite' [-Wimplicit-function-declaration]
+  ChangeSprite(&vp_text,&pointer,(void *)sprite_data);
+  ^~~~~~~~~~~~
+fmain.c: At top level:
+fmain.c:961:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ close_all()
+ ^~~~~~~~~
+fmain.c: In function 'close_all':
+fmain.c:963:22: warning: implicit declaration of function 'FreeMem' [-Wimplicit-function-declaration]
+  if (TSTFN(AL_TERR)) FreeMem(terra_mem,1024);
+                      ^~~~~~~
+fmain.c:970:4: warning: implicit declaration of function 'wrap_music' [-Wimplicit-function-declaration]
+  { wrap_music(); FreeMem(wavmem,VOICE_SZ); FreeMem(scoremem,SCORE_SZ); }
+    ^~~~~~~~~~
+fmain.c:975:2: warning: implicit declaration of function 'LoadView' [-Wimplicit-function-declaration]
+  LoadView(oldview);
+  ^~~~~~~~
+fmain.c:976:2: warning: implicit declaration of function 'FreeVPortCopLists' [-Wimplicit-function-declaration]
+  FreeVPortCopLists(&vp_page);
+  ^~~~~~~~~~~~~~~~~
+fmain.c:978:2: warning: implicit declaration of function 'FreeCprList' [-Wimplicit-function-declaration]
+  FreeCprList(fp_page1.savecop);
+  ^~~~~~~~~~~
+fmain.c:982:24: warning: implicit declaration of function 'FreeColorMap' [-Wimplicit-function-declaration]
+  if (vp_page.ColorMap) FreeColorMap(vp_page.ColorMap);
+                        ^~~~~~~~~~~~
+fmain.c:986:4: warning: implicit declaration of function 'FreeRaster' [-Wimplicit-function-declaration]
+    FreeRaster(bm_page1->Planes[i],PHANTA_WIDTH,RAST_HEIGHT);
+    ^~~~~~~~~~
+fmain.c:992:18: warning: implicit declaration of function 'CloseDevice' [-Wimplicit-function-declaration]
+  if (audio_open) CloseDevice(&ioaudio->ioa_Request);
+                  ^~~~~~~~~~~
+fmain.c:993:15: warning: implicit declaration of function 'DeleteExtIO' [-Wimplicit-function-declaration]
+  if (ioaudio) DeleteExtIO(&ioaudio->ioa_Request);
+               ^~~~~~~~~~~
+fmain.c:994:17: warning: implicit declaration of function 'DeletePort' [-Wimplicit-function-declaration]
+  if (audioport) DeletePort(audioport);
+                 ^~~~~~~~~~
+fmain.c:997:24: warning: implicit declaration of function 'UnLoadSeg' [-Wimplicit-function-declaration]
+  if (TSTFN(AL_FONT)) { UnLoadSeg(seg); CloseFont(tfont); }
+                        ^~~~~~~~~
+fmain.c:997:40: warning: implicit declaration of function 'CloseFont' [-Wimplicit-function-declaration]
+  if (TSTFN(AL_FONT)) { UnLoadSeg(seg); CloseFont(tfont); }
+                                        ^~~~~~~~~
+fmain.c:1005:2: warning: implicit declaration of function 'FreeDiskIO' [-Wimplicit-function-declaration]
+  FreeDiskIO();
+  ^~~~~~~~~~
+fmain.c:1007:25: warning: implicit declaration of function 'CloseLibrary' [-Wimplicit-function-declaration]
+  if (TSTFN(AL_GBASE)) { CloseLibrary((struct Library *)GfxBase); CloseLibrary(LayersBase); }
+                         ^~~~~~~~~~~~
+fmain.c:1010:2: warning: implicit declaration of function 'DisposeLayerInfo' [-Wimplicit-function-declaration]
+  DisposeLayerInfo(li);
+  ^~~~~~~~~~~~~~~~
+fmain.c:1014:15: warning: implicit declaration of function 'CurrentDir' [-Wimplicit-function-declaration]
+  if (origDir) CurrentDir(origDir);
+               ^~~~~~~~~~
+fmain.c: At top level:
+fmain.c:1034:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ read_sample()
+ ^~~~~~~~~~~
+fmain.c: In function 'read_sample':
+fmain.c:1039:2: warning: implicit declaration of function 'load_track_range' [-Wimplicit-function-declaration]
+  load_track_range(920,11,sample_mem,8);
+  ^~~~~~~~~~~~~~~~
+fmain.c:1041:2: warning: implicit declaration of function 'WaitDiskIO' [-Wimplicit-function-declaration]
+  WaitDiskIO(8); /* WaitIO((struct IORequest *)&diskreqs[8]); */
+  ^~~~~~~~~~
+fmain.c:1042:2: warning: implicit declaration of function 'InvalidDiskIO' [-Wimplicit-function-declaration]
+  InvalidDiskIO(8); /* diskreqs[8].iotd_Req.io_Command = CMD_INVALID; */
+  ^~~~~~~~~~~~~
+fmain.c: At top level:
+fmain.c:1092:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ doorfind(x,y,keytype) register USHORT x,y; register unsigned long keytype;
+ ^~~~~~~~
+fmain.c: In function 'doorfind':
+fmain.c:1094:6: warning: implicit declaration of function 'px_to_im' [-Wimplicit-function-declaration]
+  if (px_to_im(x,y)==15) goto found;
+      ^~~~~~~~
+fmain.c:1128:5: warning: implicit declaration of function 'print' [-Wimplicit-function-declaration]
+     print("It opened.");
+     ^~~~~
+fmain.c: In function 'main':
+fmain.c:1160:11: warning: implicit declaration of function 'do_error' [-Wimplicit-function-declaration]
+  if (i) { do_error(i); goto quit_all; }
+           ^~~~~~~~
+fmain.c:1172:2: warning: implicit declaration of function 'SetRGB4' [-Wimplicit-function-declaration]
+  SetRGB4(&vp_page,0,0,0,6);
+  ^~~~~~~
+fmain.c:1177:2: warning: implicit declaration of function 'SetAPen' [-Wimplicit-function-declaration]
+  SetAPen(rp,1);
+  ^~~~~~~
+fmain.c:1178:2: warning: implicit declaration of function 'ssp' [-Wimplicit-function-declaration]
+  ssp(titletext);
+  ^~~
+fmain.c:1188:2: warning: implicit declaration of function 'read_score' [-Wimplicit-function-declaration]
+  read_score();
+  ^~~~~~~~~~
+fmain.c:1202:2: warning: implicit declaration of function 'playscore' [-Wimplicit-function-declaration]
+  playscore(track[12],track[13],track[14],track[15]);
+  ^~~~~~~~~
+fmain.c:1206:2: warning: implicit declaration of function 'LoadRGB4' [-Wimplicit-function-declaration]
+  LoadRGB4(&vp_text,blackcolors,32);
+  ^~~~~~~~
+fmain.c:1214:6: warning: implicit declaration of function 'skipint' [-Wimplicit-function-declaration]
+  if (skipint()) goto no_intro;    //[WD] re-enable later
+      ^~~~~~~
+fmain.c:1217:22: warning: passing argument 2 of 'unpackbrush' from incompatible pointer type [-Wincompatible-pointer-types]
+  unpackbrush("page0",&pageb,0,0);
+                      ^
+In file included from ftale.h:9:0,
+                 from fmain.c:3:
+iffsubs.h:2:13: note: expected 'struct BitMap *' but argument is of type 'struct BitMap *'
+ extern void unpackbrush(unsigned char *filename, struct BitMap *bitmap, int x, int y);
+             ^~~~~~~~~~~
+fmain.c:1218:2: warning: implicit declaration of function 'BltBitMap' [-Wimplicit-function-declaration]
+  BltBitMap(&pageb,0,0,bm_page1,0,0,320,200,0xC0,0x1f,0);
+  ^~~~~~~~~
+fmain.c:1229:2: warning: implicit declaration of function 'copypage' [-Wimplicit-function-declaration]
+  copypage("p1a","p1b",21,29);
+  ^~~~~~~~
+fmain.c:1240:2: warning: implicit declaration of function 'seekn' [-Wimplicit-function-declaration]
+  seekn();
+  ^~~~~
+fmain.c:1251:2: warning: implicit declaration of function 'WaitLastDiskIO' [-Wimplicit-function-declaration]
+  WaitLastDiskIO(); /* WaitIO((struct IORequest *)lastreq); */
+  ^~~~~~~~~~~~~~
+fmain.c:1252:2: warning: implicit declaration of function 'InvalidLastDiskIO' [-Wimplicit-function-declaration]
+  InvalidLastDiskIO(); /* lastreq->iotd_Req.io_Command = CMD_INVALID; */
+  ^~~~~~~~~~~~~~~~~
+fmain.c:1255:25: warning: passing argument 2 of 'unpackbrush' from incompatible pointer type [-Wincompatible-pointer-types]
+  unpackbrush("hiscreen",bm_text,0,0);
+                         ^~~~~~~
+In file included from ftale.h:9:0,
+                 from fmain.c:3:
+iffsubs.h:2:13: note: expected 'struct BitMap *' but argument is of type 'struct BitMap *'
+ extern void unpackbrush(unsigned char *filename, struct BitMap *bitmap, int x, int y);
+             ^~~~~~~~~~~
+fmain.c:1261:2: warning: implicit declaration of function 'stillscreen' [-Wimplicit-function-declaration]
+  stillscreen();
+  ^~~~~~~~~~~
+fmain.c:1275:2: warning: implicit declaration of function 'stopscore' [-Wimplicit-function-declaration]
+  stopscore();
+  ^~~~~~~~~
+fmain.c:1314:9: warning: implicit declaration of function 'getkey' [-Wimplicit-function-declaration]
+   key = getkey();
+         ^~~~~~
+fmain.c:1331:5: warning: implicit declaration of function 'move_extent' [-Wimplicit-function-declaration]
+     move_extent(0,hero_x+20,hero_y+20);
+     ^~~~~~~~~~~
+fmain.c:1335:13: warning: implicit declaration of function 'rnd' [-Wimplicit-function-declaration]
+     { stuff[rnd(GOLDBASE)]+=3; set_options(); stuff[22]=0; }
+             ^~~
+fmain.c:1363:54: warning: implicit declaration of function 'prq' [-Wimplicit-function-declaration]
+       else if (atype == 0 && hit < 5) { cmode = hit; prq(5); }
+                                                      ^~~
+fmain.c:1369:35: warning: implicit declaration of function 'rescue' [-Wimplicit-function-declaration]
+    else if (key == 'R' && cheat1) rescue();
+                                   ^~~~~~
+fmain.c:1402:5: warning: implicit declaration of function 'Delay' [-Wimplicit-function-declaration]
+   { Delay(200); viewstatus = 99; }
+     ^~~~~
+fmain.c:1407:4: warning: implicit declaration of function 'ppick' [-Wimplicit-function-declaration]
+    ppick();
+    ^~~~~
+fmain.c:1412:3: warning: implicit declaration of function 'decode_mouse' [-Wimplicit-function-declaration]
+   decode_mouse(); /* what if dead ?? */
+   ^~~~~~~~~~~~
+fmain.c:1449:41: warning: implicit declaration of function 'event' [-Wimplicit-function-declaration]
+    { if (inum != SHOOT1 && xtype == 81) event(15);
+                                         ^~~~~
+fmain.c:1457:10: warning: implicit declaration of function 'proxcheck' [-Wimplicit-function-declaration]
+      if (proxcheck(anim_list[0].abs_x,ytest,0)==0 &&
+          ^~~~~~~~~
+fmain.c:1478:28: warning: implicit declaration of function 'rand4' [-Wimplicit-function-declaration]
+    { if (hunger > 120 && !(rand4()))
+                            ^~~~~
+fmain.c:1523:20: warning: implicit declaration of function 'rand2' [-Wimplicit-function-declaration]
+      mdex++; dex = rand2() + 1;
+                    ^~~~~
+fmain.c:1524:22: warning: implicit declaration of function 'rand256' [-Wimplicit-function-declaration]
+      effect(5,1800 + rand256());
+                      ^~~~~~~
+fmain.c:1557:16: warning: implicit declaration of function 'newx' [-Wimplicit-function-declaration]
+      { xtest = newx(an->abs_x,d,3);
+                ^~~~
+fmain.c:1558:15: warning: implicit declaration of function 'newy' [-Wimplicit-function-declaration]
+       ytest = newy(an->abs_y,d,3);
+               ^~~~
+fmain.c:1590:7: warning: implicit declaration of function 'set_course' [-Wimplicit-function-declaration]
+     { set_course(i,hero_x,hero_y,0); dex = an->facing/2; witchflag = TRUE; }
+       ^~~~~~~~~~
+fmain.c:1790:6: warning: implicit declaration of function 'leave_item' [-Wimplicit-function-declaration]
+      leave_item(i,139); /* leave the talisman */
+      ^~~~~~~~~~
+fmain.c:1875:5: warning: implicit declaration of function 'map_adjust' [-Wimplicit-function-declaration]
+     map_adjust(hero_x = an->abs_x,hero_y = an->abs_y);
+     ^~~~~~~~~~
+fmain.c:1890:18: warning: implicit declaration of function 'wrap' [-Wimplicit-function-declaration]
+    { an->rel_x = wrap(an->abs_x - map_x - 32);
+                  ^~~~
+fmain.c:1965:6: warning: implicit declaration of function 'fade_page' [-Wimplicit-function-declaration]
+      fade_page(100,100,100,TRUE,pagecolors);
+      ^~~~~~~~~
+fmain.c:2004:3: warning: implicit declaration of function 'OwnBlitter' [-Wimplicit-function-declaration]
+   OwnBlitter();
+   ^~~~~~~~~~
+fmain.c:2007:4: warning: implicit declaration of function 'rest_blit' [-Wimplicit-function-declaration]
+    rest_blit(shp->backsave);
+    ^~~~~~~~~
+fmain.c:2009:3: warning: implicit declaration of function 'DisownBlitter' [-Wimplicit-function-declaration]
+   DisownBlitter();
+   ^~~~~~~~~~~~~
+fmain.c:2014:26: warning: implicit declaration of function 'witch_fx' [-Wimplicit-function-declaration]
+   if (fp_drawing->wflag) witch_fx(fp_drawing);
+                          ^~~~~~~~
+fmain.c:2023:17: warning: implicit declaration of function 'load_next' [-Wimplicit-function-declaration]
+   if (MAP_FLUX) load_next();
+                 ^~~~~~~~~
+fmain.c:2027:4: warning: implicit declaration of function 'map_draw' [-Wimplicit-function-declaration]
+    map_draw();
+    ^~~~~~~~
+fmain.c:2035:23: warning: implicit declaration of function 'scrollmap' [-Wimplicit-function-declaration]
+   { if (dif_y == 1) { scrollmap(5); } /* scroll up left */
+                       ^~~~~~~~~
+fmain.c:2054:23: warning: implicit declaration of function 'rand64' [-Wimplicit-function-declaration]
+       (battleflag && (rand64() == 0)) )
+                       ^~~~~~
+fmain.c:2075:5: warning: implicit declaration of function 'day_fade' [-Wimplicit-function-declaration]
+     day_fade();
+     ^~~~~~~~
+fmain.c:2088:35: warning: implicit declaration of function 'CheckDiskIO' [-Wimplicit-function-declaration]
+     if (actors_loading == TRUE && CheckDiskIO(8))
+                                   ^~~~~~~~~~~
+fmain.c:2090:7: warning: implicit declaration of function 'prep' [-Wimplicit-function-declaration]
+     { prep(ENEMY); motor_off();
+       ^~~~
+fmain.c:2090:20: warning: implicit declaration of function 'motor_off' [-Wimplicit-function-declaration]
+     { prep(ENEMY); motor_off();
+                    ^~~~~~~~~
+fmain.c:2098:8: warning: implicit declaration of function 'set_loc' [-Wimplicit-function-declaration]
+      { set_loc();
+        ^~~~~~~
+fmain.c:2133:17: warning: implicit declaration of function 'speak' [-Wimplicit-function-declaration]
+      case 0x8d: speak(23); break; /* beggar */
+                 ^~~~~
+fmain.c:2168:11: warning: implicit declaration of function 'bitrand' [-Wimplicit-function-declaration]
+      r = !bitrand(15);
+           ^~~~~~~
+fmain.c:2178:28: warning: implicit declaration of function 'do_tactic' [-Wimplicit-function-declaration]
+      { if (an->weapon & 4) do_tactic(i,rand4()+2);
+                            ^~~~~~~~~
+fmain.c:2223:23: warning: implicit declaration of function 'aftermath' [-Wimplicit-function-declaration]
+     { prq(7); prq(4); aftermath(); }
+                       ^~~~~~~~~
+fmain.c:2283:46: warning: implicit declaration of function 'rand8' [-Wimplicit-function-declaration]
+     xs = newx(anim_list[i].abs_x,fc,wt+wt) + rand8()-3;
+                                              ^~~~~
+fmain.c:2297:8: warning: implicit declaration of function 'dohit' [-Wimplicit-function-declaration]
+      { dohit(i,j,fc,wt); break; }
+        ^~~~~
+fmain.c:2340:3: warning: implicit declaration of function 'do_objects' [-Wimplicit-function-declaration]
+   do_objects();
+   ^~~~~~~~~~
+fmain.c:2375:10: warning: implicit declaration of function 'calc_dist' [-Wimplicit-function-declaration]
+    { j = calc_dist(i,0);
+          ^~~~~~~~~
+fmain.c:2399:19: warning: implicit declaration of function 'strip_draw' [-Wimplicit-function-declaration]
+   if (dif_x == 1) strip_draw(36); else if (dif_x == -1) strip_draw(0);
+                   ^~~~~~~~~~
+fmain.c:2400:19: warning: implicit declaration of function 'row_draw' [-Wimplicit-function-declaration]
+   if (dif_y == 1) row_draw(10); else if (dif_y == -1) row_draw(0);
+                   ^~~~~~~~
+fmain.c:2453:4: warning: implicit declaration of function 'WaitBlit' [-Wimplicit-function-declaration]
+    WaitBlit(); clear_blit(bmask_mem,CBK_SIZE);
+    ^~~~~~~~
+fmain.c:2453:16: warning: implicit declaration of function 'clear_blit' [-Wimplicit-function-declaration]
+    WaitBlit(); clear_blit(bmask_mem,CBK_SIZE);
+                ^~~~~~~~~~
+fmain.c:2597:4: warning: implicit declaration of function 'save_blit' [-Wimplicit-function-declaration]
+    save_blit(shp->backsave);
+    ^~~~~~~~~
+fmain.c:2631:6: warning: implicit declaration of function 'maskit' [-Wimplicit-function-declaration]
+      maskit(xm,ym,blitwide,terra_mem[cm]);
+      ^~~~~~
+fmain.c:2637:4: warning: implicit declaration of function 'mask_blit' [-Wimplicit-function-declaration]
+    mask_blit();
+    ^~~~~~~~~
+fmain.c:2638:4: warning: implicit declaration of function 'shape_blit' [-Wimplicit-function-declaration]
+    shape_blit();
+    ^~~~~~~~~~
+fmain.c:2650:26: warning: implicit declaration of function 'fade_normal' [-Wimplicit-function-declaration]
+   if (viewstatus == 3) { fade_normal(); viewstatus = 0; }
+                          ^~~~~~~~~~~
+fmain.c: At top level:
+fmain.c:2662:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ xfer(xtest,ytest,flag) register USHORT xtest, ytest, flag;
+ ^~~~
+fmain.c:2684:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ find_place(flag) short flag;
+ ^~~~~~~~~~
+fmain.c: In function 'find_place':
+fmain.c:2709:13: warning: implicit declaration of function 'msg' [-Wimplicit-function-declaration]
+   if (flag) msg(ms,i);
+             ^~~
+fmain.c: At top level:
+fmain.c:2759:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ load_actors()
+ ^~~~~~~~~~~
+fmain.c: In function 'load_actors':
+fmain.c:2765:3: warning: implicit declaration of function 'read_shapes' [-Wimplicit-function-declaration]
+   read_shapes(actor_file);
+   ^~~~~~~~~~~
+fmain.c: At top level:
+fmain.c:2773:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ set_encounter(i,spread) USHORT i, spread;
+ ^~~~~~~~~~~~~
+fmain.c:2806:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ checkdead(i,dtype) register long i, dtype;
+ ^~~~~~~~~
+fmain.c:2821:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ load_carrier(n) short n;
+ ^~~~~~~~~~~~
+fmain.c:2851:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ revive(new) short new;
+ ^~~~~~
+fmain.c: In function 'revive':
+fmain.c:2899:3: warning: implicit declaration of function 'map_message' [-Wimplicit-function-declaration]
+   map_message();
+   ^~~~~~~~~~~
+fmain.c:2902:5: warning: implicit declaration of function 'placard_text' [-Wimplicit-function-declaration]
+   { placard_text(0);
+     ^~~~~~~~~~~~
+fmain.c:2920:19: warning: implicit declaration of function 'RectFill' [-Wimplicit-function-declaration]
+    SetAPen(rp,0); RectFill(rp,13,13,271,107); Delay(10);
+                   ^~~~~~~~
+fmain.c:2928:34: warning: implicit declaration of function 'shape_read' [-Wimplicit-function-declaration]
+   actor_file = 6; set_file = 13; shape_read();
+                                  ^~~~~~~~~~
+fmain.c:2931:5: warning: implicit declaration of function 'message_off' [-Wimplicit-function-declaration]
+   { message_off();
+     ^~~~~~~~~~~
+fmain.c:2934:22: warning: implicit declaration of function 'print_cont' [-Wimplicit-function-declaration]
+    if (brother == 1) print_cont(".");
+                      ^~~~~~~~~~
+fmain.c:2939:7: warning: implicit declaration of function 'fade_down' [-Wimplicit-function-declaration]
+  else fade_down();
+       ^~~~~~~~~
+fmain.c: At top level:
+fmain.c:2961:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ screen_size(x) register long x;
+ ^~~~~~~~~~~
+fmain.c:2983:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ setmood(now) char now;
+ ^~~~~~~
+fmain.c: In function 'setmood':
+fmain.c:3001:8: warning: implicit declaration of function 'setscore' [-Wimplicit-function-declaration]
+   else setscore(track[off],track[off+1],track[off+2],track[off+3]);
+        ^~~~~~~~
+fmain.c: At top level:
+fmain.c:3006:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ gen_mini()
+ ^~~~~~~~
+fmain.c: In function 'gen_mini':
+fmain.c:3037:2: warning: implicit declaration of function 'genmini' [-Wimplicit-function-declaration]
+  genmini(img_x,img_y);
+  ^~~~~~~
+fmain.c: At top level:
+fmain.c:3040:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ pagechange()
+ ^~~~~~~~~~
+fmain.c: In function 'pagechange':
+fmain.c:3048:2: warning: implicit declaration of function 'MrgCop' [-Wimplicit-function-declaration]
+  MrgCop( &v );
+  ^~~~~~
+fmain.c:3052:2: warning: implicit declaration of function 'WaitBOVP' [-Wimplicit-function-declaration]
+  WaitBOVP(&vp_text);
+  ^~~~~~~~
+fmain.c: At top level:
+fmain.c:3059:8: warning: type defaults to 'int' in declaration of 'HandlerInterface' [-Wimplicit-int]
+ extern HandlerInterface();
+        ^~~~~~~~~~~~~~~~
+fmain.c:3061:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ add_device()
+ ^~~~~~~~~~
+fmain.c: In function 'add_device':
+fmain.c:3079:2: warning: implicit declaration of function 'DoIO' [-Wimplicit-function-declaration]
+  DoIO((struct IORequest *)inputRequestBlock);
+  ^~~~
+fmain.c: At top level:
+fmain.c:3083:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ wrap_device()
+ ^~~~~~~~~~~
+fmain.c: In function 'wrap_device':
+fmain.c:3088:2: warning: implicit declaration of function 'DeleteStdIO' [-Wimplicit-function-declaration]
+  DeleteStdIO(inputRequestBlock);
+  ^~~~~~~~~~~
+fmain.c: At top level:
+fmain.c:3092:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ print_options()
+ ^~~~~~~~~~~~~
+fmain.c: In function 'print_options':
+fmain.c:3108:3: warning: implicit declaration of function 'Move' [-Wimplicit-function-declaration]
+   Move(&rp_text2,x,y);
+   ^~~~
+fmain.c:3109:3: warning: implicit declaration of function 'Text' [-Wimplicit-function-declaration]
+   Text(&rp_text2,"      ",6);
+   ^~~~
+fmain.c: At top level:
+fmain.c:3114:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ propt(j,pena) short j,pena;
+ ^~~~~
+fmain.c:3146:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ do_option(hit) short hit;
+ ^~~~~~~~~
+fmain.c: In function 'do_option':
+fmain.c:3193:4: warning: implicit declaration of function 'nearest_fig' [-Wimplicit-function-declaration]
+    nearest_fig(0,30);
+    ^~~~~~~~~~~
+fmain.c:3201:8: warning: implicit declaration of function 'announce_treasure' [-Wimplicit-function-declaration]
+      { announce_treasure("50 gold pieces");
+        ^~~~~~~~~~~~~~~~~
+fmain.c:3211:12: warning: implicit declaration of function 'eat' [-Wimplicit-function-declaration]
+       else eat(30);
+            ^~~
+fmain.c:3225:21: warning: implicit declaration of function 'announce_container' [-Wimplicit-function-declaration]
+      { if (j==0x0f) announce_container("a chest");
+                     ^~~~~~~~~~~~~~~~~~
+fmain.c:3286:6: warning: implicit declaration of function 'change_object' [-Wimplicit-function-declaration]
+      change_object(nearest,2);
+      ^~~~~~~~~~~~~
+fmain.c:3290:41: warning: implicit declaration of function 'win_colors' [-Wimplicit-function-declaration]
+       map_message(); SetFont(rp,afont); win_colors();
+                                         ^~~~~~~~~~
+fmain.c:3295:7: warning: implicit declaration of function 'extract' [-Wimplicit-function-declaration]
+     { extract("% searched the body and found");
+       ^~~~~~~
+fmain.c:3305:23: warning: implicit declaration of function 'prdec' [-Wimplicit-function-declaration]
+        j = rand8()+2; prdec(j,1);
+                       ^~~~~
+fmain.c:3352:28: warning: 'return' with no value, in function returning non-void
+   case 10: if (riding > 1) return; freeze_timer += 100; break;
+                            ^~~~~~
+fmain.c:3146:1: note: declared here
+ do_option(hit) short hit;
+ ^~~~~~~~~
+fmain.c:3354:37: warning: 'return' with no value, in function returning non-void
+    if (cheat1==0 && region_num > 7) return;
+                                     ^~~~~~
+fmain.c:3146:1: note: declared here
+ do_option(hit) short hit;
+ ^~~~~~~~~
+fmain.c:3357:4: warning: implicit declaration of function 'bigdraw' [-Wimplicit-function-declaration]
+    bigdraw(map_x,map_y);
+    ^~~~~~~
+fmain.c:3380:8: warning: implicit declaration of function 'colorplay' [-Wimplicit-function-declaration]
+        colorplay();
+        ^~~~~~~~~
+fmain.c:3389:12: warning: 'return' with no value, in function returning non-void
+     } else return;
+            ^~~~~~
+fmain.c:3146:1: note: declared here
+ do_option(hit) short hit;
+ ^~~~~~~~~
+fmain.c:3391:9: warning: 'return' with no value, in function returning non-void
+    else return; /* didn't work so don't decrement use count */
+         ^~~~~~
+fmain.c:3146:1: note: declared here
+ do_option(hit) short hit;
+ ^~~~~~~~~
+fmain.c:3471:19: warning: 'return' with no value, in function returning non-void
+   { if (hit > 11) return;
+                   ^~~~~~
+fmain.c:3146:1: note: declared here
+ do_option(hit) short hit;
+ ^~~~~~~~~
+fmain.c:3495:4: warning: 'return' with no value, in function returning non-void
+    return;
+    ^~~~~~
+fmain.c:3146:1: note: declared here
+ do_option(hit) short hit;
+ ^~~~~~~~~
+fmain.c:3514:3: warning: implicit declaration of function 'savegame' [-Wimplicit-function-declaration]
+   savegame(hit);
+   ^~~~~~~~
+fmain.c: At top level:
+fmain.c:3554:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ get_turtle()
+ ^~~~~~~~~~
+fmain.c: In function 'get_turtle':
+fmain.c:3559:13: warning: 'return' with no value, in function returning non-void
+  if (i==25) return;
+             ^~~~~~
+fmain.c:3554:1: note: declared here
+ get_turtle()
+ ^~~~~~~~~~
+fmain.c: At top level:
+fmain.c:3564:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ gomenu(mode) short mode;
+ ^~~~~~
+fmain.c: In function 'gomenu':
+fmain.c:3565:35: warning: 'return' with no value, in function returning non-void
+ { if (menus[GAME].enabled[5] & 1) return;
+                                   ^~~~~~
+fmain.c:3564:1: note: declared here
+ gomenu(mode) short mode;
+ ^~~~~~
+fmain.c: At top level:
+fmain.c:3571:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ set_options()
+ ^~~~~~~~~~~
+fmain.c: In function 'set_options':
+fmain.c:3577:32: warning: implicit declaration of function 'stuff_flag' [-Wimplicit-function-declaration]
+  { menus[MAGIC].enabled[i+5] = stuff_flag(i+9);
+                                ^~~~~~~~~~
+fmain.c: At top level:
+fmain.c:3592:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ load_all()
+ ^~~~~~~~
+fmain.c:3595:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ load_new_region()
+ ^~~~~~~~~~~~~~~
+fmain.c: In function 'load_new_region':
+fmain.c:3600:18: warning: 'return' with no value, in function returning non-void
+  if (MAP_STABLE) return;
+                  ^~~~~~
+fmain.c:3595:1: note: declared here
+ load_new_region()
+ ^~~~~~~~~~~~~~~
+fmain.c:3636:4: warning: 'return' with no value, in function returning non-void
+    return;
+    ^~~~~~
+fmain.c:3595:1: note: declared here
+ load_new_region()
+ ^~~~~~~~~~~~~~~
+fmain.c:3649:7: warning: implicit declaration of function 'IsReadDiskIO' [-Wimplicit-function-declaration]
+   if (IsReadDiskIO(i)) WaitDiskIO(i);
+       ^~~~~~~~~~~~
+fmain.c: At top level:
+fmain.c:3663:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ effect(num,speed) short num; long speed;
+ ^~~~~~
+fmain.c: In function 'effect':
+fmain.c:3665:4: warning: implicit declaration of function 'playsample' [-Wimplicit-function-declaration]
+  { playsample(sample[num],sample_size[num]/2,speed); }
+    ^~~~~~~~~~
+fmain.c: At top level:
+fmain.c:3668:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ mod1save()
+ ^~~~~~~~
+fmain.c: In function 'mod1save':
+fmain.c:3670:2: warning: implicit declaration of function 'saveload' [-Wimplicit-function-declaration]
+  saveload(julstuff,35);
+  ^~~~~~~~
+fmain.c: In function 'MakeBitMap':
+fmain.c:3688:23: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+  { if (!(b->Planes[i] = AllocRaster(width,height)) ) success = FALSE;  }
+                       ^
+In file included from ftale.h:9:0,
+                 from fmain2.c:1:
+iffsubs.h:2:57: warning: 'struct BitMap' declared inside parameter list will not be visible outside of this definition or declaration
+ extern void unpackbrush(unsigned char *filename, struct BitMap *bitmap, int x, int y);
+                                                         ^~~~~~
+fmain2.c:29:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ dohit(i,j,fc,wt) short wt; register long j,i,fc;
+ ^~~~~
+fmain2.c: In function 'dohit':
+fmain2.c:33:4: warning: implicit declaration of function 'speak' [-Wimplicit-function-declaration]
+  { speak(58); return; }
+    ^~~~~
+fmain2.c:33:15: warning: 'return' with no value, in function returning non-void
+  { speak(58); return; }
+               ^~~~~~
+fmain2.c:29:1: note: declared here
+ dohit(i,j,fc,wt) short wt; register long j,i,fc;
+ ^~~~~
+fmain2.c:34:62: warning: 'return' with no value, in function returning non-void
+  if (anim_list[j].race == 0x8a || anim_list[j].race == 0x8b) return;
+                                                              ^~~~~~
+fmain2.c:29:1: note: declared here
+ dohit(i,j,fc,wt) short wt; register long j,i,fc;
+ ^~~~~
+fmain2.c:37:13: warning: implicit declaration of function 'effect' [-Wimplicit-function-declaration]
+  if (i==-1) effect(2,500+rand64());
+             ^~~~~~
+fmain2.c:37:26: warning: implicit declaration of function 'rand64' [-Wimplicit-function-declaration]
+  if (i==-1) effect(2,500+rand64());
+                          ^~~~~~
+fmain2.c:38:32: warning: implicit declaration of function 'bitrand' [-Wimplicit-function-declaration]
+  else if (i==-2) effect(5,3200+bitrand(511));
+                                ^~~~~~~
+fmain2.c:40:20: warning: implicit declaration of function 'rand256' [-Wimplicit-function-declaration]
+  else effect(3,400+rand256());
+                    ^~~~~~~
+fmain2.c:45:2: warning: implicit declaration of function 'checkdead' [-Wimplicit-function-declaration]
+  checkdead(j,5);
+  ^~~~~~~~~
+fmain2.c: At top level:
+fmain2.c:52:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ aftermath()
+ ^~~~~~~~~
+fmain2.c: In function 'aftermath':
+fmain2.c:64:16: warning: implicit declaration of function 'prdec' [-Wimplicit-function-declaration]
+   { print(""); prdec(dead,1);
+                ^~~~~
+fmain2.c:73:19: warning: implicit declaration of function 'get_turtle' [-Wimplicit-function-declaration]
+  if (turtle_eggs) get_turtle();
+                   ^~~~~~~~~~
+fmain2.c: At top level:
+fmain2.c:76:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ proxcheck(x,y,i) short x,y,i;
+ ^~~~~~~~~
+fmain2.c: In function 'proxcheck':
+fmain2.c:80:7: warning: implicit declaration of function 'prox' [-Wimplicit-function-declaration]
+  { x1=prox(x,y);
+       ^~~~
+fmain2.c: At top level:
+fmain2.c:96:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ nearest_fig(constraint,dist) char constraint; short dist;
+ ^~~~~~~~~~~
+fmain2.c:110:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ calc_dist(a,b) register long a,b;
+ ^~~~~~~~~
+fmain2.c:121:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ move_figure(fig,dir,dist) short fig,dir,dist;
+ ^~~~~~~~~~~
+fmain2.c: In function 'move_figure':
+fmain2.c:123:10: warning: implicit declaration of function 'newx' [-Wimplicit-function-declaration]
+  xtest = newx(anim_list[fig].abs_x,dir,dist);
+          ^~~~
+fmain2.c:124:10: warning: implicit declaration of function 'newy' [-Wimplicit-function-declaration]
+  ytest = newy(anim_list[fig].abs_y,dir,dist);
+          ^~~~
+fmain2.c: At top level:
+fmain2.c:150:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ drawcompass(dir) short dir;
+ ^~~~~~~~~~~
+fmain2.c: In function 'drawcompass':
+fmain2.c:157:2: warning: implicit declaration of function 'BltBitMap' [-Wimplicit-function-declaration]
+  BltBitMap(bm_source,0,0,bm_text,567,15,48,24,0xC0,4,NULL);
+  ^~~~~~~~~
+fmain2.c: At top level:
+fmain2.c:176:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ fade_page(r,g,b,limit,colors) short r,g,b,limit; USHORT *colors;
+ ^~~~~~~~~
+fmain2.c: In function 'fade_page':
+fmain2.c:220:2: warning: implicit declaration of function 'LoadRGB4' [-Wimplicit-function-declaration]
+  LoadRGB4(&vp_page,fader,32);
+  ^~~~~~~~
+fmain2.c: At top level:
+fmain2.c:227:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ colorplay() /* teleport effect */
+ ^~~~~~~~~
+fmain2.c: In function 'colorplay':
+fmain2.c:232:3: warning: implicit declaration of function 'Delay' [-Wimplicit-function-declaration]
+   Delay(1);
+   ^~~~~
+fmain2.c: At top level:
+fmain2.c:244:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ ppick()
+ ^~~~~
+fmain2.c: In function 'ppick':
+fmain2.c:252:40: warning: implicit declaration of function 'AvailMem' [-Wimplicit-function-declaration]
+     print("Memory Available: "); prdec(AvailMem(0),6);
+                                        ^~~~~~~~
+fmain2.c:257:5: warning: implicit declaration of function 'text' [-Wimplicit-function-declaration]
+     text(" Extent = ",10); prdec(xtype,2);
+     ^~~~
+fmain2.c:259:11: warning: implicit declaration of function 'move' [-Wimplicit-function-declaration]
+   case 4: move(245,52);
+           ^~~~
+fmain2.c:262:11: warning: implicit declaration of function 'print_options' [-Wimplicit-function-declaration]
+   case 5: print_options(); break;
+           ^~~~~~~~~~~~~
+fmain2.c: At top level:
+fmain2.c:279:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ print(str) register unsigned char *str;
+ ^~~~~
+fmain2.c: In function 'print':
+fmain2.c:282:2: warning: implicit declaration of function 'ScrollRaster' [-Wimplicit-function-declaration]
+  ScrollRaster(rp,0,10,TXMIN,TYMIN,TXMAX,TYMAX);
+  ^~~~~~~~~~~~
+fmain2.c: At top level:
+fmain2.c:287:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ print_cont(str) register unsigned char *str;
+ ^~~~~~~~~~
+fmain2.c:298:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ extract(start) register unsigned char *start;
+ ^~~~~~~
+fmain2.c:335:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ msg(start,num) register char *start; register long num;
+ ^~~
+fmain2.c:343:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ speak(num) register long num;
+ ^~~~~
+fmain2.c:351:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ event(num) register long num;
+ ^~~~~
+fmain2.c:385:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ announce_container(s) unsigned char *s;
+ ^~~~~~~~~~~~~~~~~~
+fmain2.c:392:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ announce_treasure(s) unsigned char *s;
+ ^~~~~~~~~~~~~~~~~
+fmain2.c:398:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ name()
+ ^~~~
+fmain2.c:407:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ map_message()
+ ^~~~~~~~~~~
+fmain2.c: In function 'map_message':
+fmain2.c:411:2: warning: implicit declaration of function 'SetDrMd' [-Wimplicit-function-declaration]
+  SetDrMd(rp,JAM1);
+  ^~~~~~~
+fmain2.c:412:2: warning: implicit declaration of function 'SetAPen' [-Wimplicit-function-declaration]
+  SetAPen(rp,24);
+  ^~~~~~~
+fmain2.c:413:2: warning: implicit declaration of function 'SetRast' [-Wimplicit-function-declaration]
+  SetRast(rp,0);
+  ^~~~~~~
+fmain2.c: At top level:
+fmain2.c:421:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ message_off()
+ ^~~~~~~~~~~
+fmain2.c: In function 'message_off':
+fmain2.c:425:2: warning: implicit declaration of function 'pagechange' [-Wimplicit-function-declaration]
+  pagechange();
+  ^~~~~~~~~~
+fmain2.c: At top level:
+fmain2.c:429:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ fade_down()
+ ^~~~~~~~~
+fmain2.c:433:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ fade_normal()
+ ^~~~~~~~~~~
+fmain2.c:437:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ stillscreen()
+ ^~~~~~~~~~~
+fmain2.c:482:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ shape_read()
+ ^~~~~~~~~~
+fmain2.c: In function 'shape_read':
+fmain2.c:490:27: warning: implicit declaration of function 'load_all' [-Wimplicit-function-declaration]
+  new_region = region_num; load_all();
+                           ^~~~~~~~
+fmain2.c: At top level:
+fmain2.c:494:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ read_shapes(num) register long num;
+ ^~~~~~~~~~~
+fmain2.c:539:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ seekn()
+ ^~~~~
+fmain2.c:552:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ prep(slot) short slot;
+ ^~~~
+fmain2.c: In function 'prep':
+fmain2.c:554:2: warning: implicit declaration of function 'WaitDiskIO' [-Wimplicit-function-declaration]
+  WaitDiskIO(8); /* WaitIO((struct IORequest *)&diskreqs[8]); */
+  ^~~~~~~~~~
+fmain2.c:555:2: warning: implicit declaration of function 'InvalidDiskIO' [-Wimplicit-function-declaration]
+  InvalidDiskIO(8); /* diskreqs[8].iotd_Req.io_Command = CMD_INVALID; */
+  ^~~~~~~~~~~~~
+fmain2.c:557:2: warning: implicit declaration of function 'make_mask' [-Wimplicit-function-declaration]
+  make_mask(seq_list[slot].location,seq_list[slot].maskloc,
+  ^~~~~~~~~
+fmain2.c: At top level:
+fmain2.c:561:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ load_next()
+ ^~~~~~~~~
+fmain2.c: In function 'load_next':
+fmain2.c:562:8: warning: implicit declaration of function 'IsReadLastDiskIO' [-Wimplicit-function-declaration]
+ { if (!IsReadLastDiskIO() || CheckLastDiskIO())
+        ^~~~~~~~~~~~~~~~
+fmain2.c:562:30: warning: implicit declaration of function 'CheckLastDiskIO' [-Wimplicit-function-declaration]
+ { if (!IsReadLastDiskIO() || CheckLastDiskIO())
+                              ^~~~~~~~~~~~~~~
+fmain2.c:564:3: warning: implicit declaration of function 'load_new_region' [-Wimplicit-function-declaration]
+   load_new_region();
+   ^~~~~~~~~~~~~~~
+fmain2.c: At top level:
+fmain2.c:569:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ read_score()
+ ^~~~~~~~~~
+fmain2.c: In function 'read_score':
+fmain2.c:574:13: warning: implicit declaration of function 'Open' [-Wimplicit-function-declaration]
+  if (file = Open("songs",1005))
+             ^~~~
+fmain2.c:576:5: warning: implicit declaration of function 'Read' [-Wimplicit-function-declaration]
+   { Read(file,&packlen,4);
+     ^~~~
+fmain2.c:583:3: warning: implicit declaration of function 'Close' [-Wimplicit-function-declaration]
+   Close(file);
+   ^~~~~
+fmain2.c: At top level:
+fmain2.c:590:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ copypage(br1,br2,x,y) unsigned char *br1, *br2; short x,y;
+ ^~~~~~~~
+fmain2.c: In function 'copypage':
+fmain2.c:591:14: warning: 'return' with no value, in function returning non-void
+ { if (skipp) return;
+              ^~~~~~
+fmain2.c:590:1: note: declared here
+ copypage(br1,br2,x,y) unsigned char *br1, *br2; short x,y;
+ ^~~~~~~~
+fmain2.c:594:18: warning: passing argument 2 of 'unpackbrush' from incompatible pointer type [-Wincompatible-pointer-types]
+  unpackbrush(br1,&pageb,4,24);
+                  ^
+In file included from ftale.h:9:0,
+                 from fmain2.c:1:
+iffsubs.h:2:13: note: expected 'struct BitMap *' but argument is of type 'struct BitMap *'
+ extern void unpackbrush(unsigned char *filename, struct BitMap *bitmap, int x, int y);
+             ^~~~~~~~~~~
+fmain2.c:595:18: warning: passing argument 2 of 'unpackbrush' from incompatible pointer type [-Wincompatible-pointer-types]
+  unpackbrush(br2,&pageb,x,y);
+                  ^
+In file included from ftale.h:9:0,
+                 from fmain2.c:1:
+iffsubs.h:2:13: note: expected 'struct BitMap *' but argument is of type 'struct BitMap *'
+ extern void unpackbrush(unsigned char *filename, struct BitMap *bitmap, int x, int y);
+             ^~~~~~~~~~~
+fmain2.c:596:17: warning: 'return' with no value, in function returning non-void
+  if (skipint()) return;
+                 ^~~~~~
+fmain2.c:590:1: note: declared here
+ copypage(br1,br2,x,y) unsigned char *br1, *br2; short x,y;
+ ^~~~~~~~
+fmain2.c: At top level:
+fmain2.c:605:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ flipscan()
+ ^~~~~~~~
+fmain2.c: In function 'flipscan':
+fmain2.c:618:10: warning: implicit declaration of function 'page_det' [-Wimplicit-function-declaration]
+    { h = page_det(scol);
+          ^~~~~~~~
+fmain2.c: At top level:
+fmain2.c:644:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ skipint()
+ ^~~~~~~
+fmain2.c: In function 'skipint':
+fmain2.c:645:19: warning: implicit declaration of function 'getkey' [-Wimplicit-function-declaration]
+ { return skipp = (getkey()==' ');}
+                   ^~~~~~
+fmain2.c: In function 'into_chip':
+fmain2.c:652:6: warning: implicit declaration of function 'TypeOfMem' [-Wimplicit-function-declaration]
+  if (TypeOfMem(oldpointer) & MEMF_CHIP) return oldpointer;
+      ^~~~~~~~~
+fmain2.c:654:15: warning: implicit declaration of function 'AllocMem' [-Wimplicit-function-declaration]
+  newpointer = AllocMem(size,MEMF_CHIP);
+               ^~~~~~~~
+fmain2.c:654:13: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+  newpointer = AllocMem(size,MEMF_CHIP);
+             ^
+fmain2.c: In function 'witch_fx':
+fmain2.c:734:10: warning: implicit declaration of function 'CreateUpfrontLayer' [-Wimplicit-function-declaration]
+  layer = CreateUpfrontLayer(li,rp_map.BitMap,0,0,16*19,6*32,
+          ^~~~~~~~~~~~~~~~~~
+fmain2.c:734:8: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+  layer = CreateUpfrontLayer(li,rp_map.BitMap,0,0,16*19,6*32,
+        ^
+fmain2.c:761:3: warning: implicit declaration of function 'InitArea' [-Wimplicit-function-declaration]
+   InitArea(&myAreaInfo,areabuffer,9);
+   ^~~~~~~~
+fmain2.c:763:3: warning: implicit declaration of function 'AreaMove' [-Wimplicit-function-declaration]
+   AreaMove(r,x1,y1);
+   ^~~~~~~~
+fmain2.c:764:3: warning: implicit declaration of function 'AreaDraw' [-Wimplicit-function-declaration]
+   AreaDraw(r,x2,y2);
+   ^~~~~~~~
+fmain2.c:767:3: warning: implicit declaration of function 'AreaEnd' [-Wimplicit-function-declaration]
+   AreaEnd(r);
+   ^~~~~~~
+fmain2.c:768:3: warning: implicit declaration of function 'FreeRaster' [-Wimplicit-function-declaration]
+   FreeRaster(myras,100,100);
+   ^~~~~~~~~~
+fmain2.c:773:2: warning: implicit declaration of function 'DeleteLayer' [-Wimplicit-function-declaration]
+  DeleteLayer(NULL,layer);
+  ^~~~~~~~~~~
+fmain2.c: At top level:
+fmain2.c:991:7: warning: built-in function 'j1' declared as non-function
+ short j1;
+       ^~
+fmain2.c:993:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ do_objects()
+ ^~~~~~~~~~
+fmain2.c:1000:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ leave_item(i,object) short i,object;
+ ^~~~~~~~~~
+fmain2.c:1009:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ change_object(id,flag) register long id, flag;
+ ^~~~~~~~~~~~~
+fmain2.c:1027:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ set_objects(list,length,f) struct object *list; short length; long f;
+ ^~~~~~~~~~~
+fmain2.c: In function 'set_objects':
+fmain2.c:1041:13: warning: implicit declaration of function 'px_to_im' [-Wimplicit-function-declaration]
+    } while (px_to_im(xstart,ystart));
+             ^~~~~~~~
+fmain2.c:1053:20: warning: 'return' with no value, in function returning non-void
+   if (anix2 >= 20) return;
+                    ^~~~~~
+fmain2.c:1027:1: note: declared here
+ set_objects(list,length,f) struct object *list; short length; long f;
+ ^~~~~~~~~~~
+fmain2.c: At top level:
+fmain2.c:1118:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ copy_protect_junk()
+ ^~~~~~~~~~~~~~~~~
+fmain2.c: In function 'copy_protect_junk':
+fmain2.c:1125:13: warning: implicit declaration of function 'rand8' [-Wimplicit-function-declaration]
+  { do { j = rand8(); } while ((a = answers[j])==0);
+             ^~~~~
+fmain2.c:1126:39: warning: implicit declaration of function 'question' [-Wimplicit-function-declaration]
+   SetAPen(rp,1); move(10,125+(h*10)); question(j);
+                                       ^~~~~~~~
+fmain2.c:1129:3: warning: implicit declaration of function 'cursor' [-Wimplicit-function-declaration]
+   cursor(0,4,rp,answr);
+   ^~~~~~
+fmain2.c: At top level:
+fmain2.c:1158:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ locktest(name,access) unsigned char *name; long access;
+ ^~~~~~~~
+fmain2.c: In function 'locktest':
+fmain2.c:1159:11: warning: implicit declaration of function 'Lock' [-Wimplicit-function-declaration]
+ { flock = Lock(name,access);
+           ^~~~
+fmain2.c:1160:13: warning: implicit declaration of function 'UnLock' [-Wimplicit-function-declaration]
+  if (flock) UnLock(flock);
+             ^~~~~~
+fmain2.c: At top level:
+fmain2.c:1166:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ cpytest()
+ ^~~~~~~
+fmain2.c: In function 'cpytest':
+fmain2.c:1185:27: warning: implicit declaration of function 'close_all' [-Wimplicit-function-declaration]
+   if (buffer[123] != 230) close_all();
+                           ^~~~~~~~~
+fmain2.c: At top level:
+fmain2.c:1189:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ waitnewdisk()
+ ^~~~~~~~~~~
+fmain2.c:1221:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ savegame(hit) short hit;
+ ^~~~~~~~
+fmain2.c: In function 'savegame':
+fmain2.c:1228:2: warning: implicit declaration of function 'SetFont' [-Wimplicit-function-declaration]
+  SetFont(rp,tfont);
+  ^~~~~~~
+fmain2.c:1263:3: warning: implicit declaration of function 'mod1save' [-Wimplicit-function-declaration]
+   mod1save();
+   ^~~~~~~~
+fmain2.c:1277:15: warning: implicit declaration of function 'IoErr' [-Wimplicit-function-declaration]
+  else sverr = IoErr();
+               ^~~~~
+fmain2.c:1291:17: warning: implicit declaration of function 'set_options' [-Wimplicit-function-declaration]
+   shape_read(); set_options(); viewstatus = 99;
+                 ^~~~~~~~~~~
+fmain2.c:1292:3: warning: implicit declaration of function 'prq' [-Wimplicit-function-declaration]
+   prq(4); prq(7);
+   ^~~
+fmain2.c: At top level:
+fmain2.c:1300:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ saveload(buffer,length) unsigned char *buffer; long length;
+ ^~~~~~~~
+fmain2.c: In function 'saveload':
+fmain2.c:1302:20: warning: implicit declaration of function 'Write' [-Wimplicit-function-declaration]
+  if (svflag) err = Write(svfile,buffer,length);
+                    ^~~~~
+fmain2.c: At top level:
+fmain2.c:1307:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ move_extent(e,x,y) short e,x,y;
+ ^~~~~~~~~~~
+fmain2.c:1331:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ rescue()
+ ^~~~~~
+fmain2.c: In function 'rescue':
+fmain2.c:1335:2: warning: implicit declaration of function 'placard_text' [-Wimplicit-function-declaration]
+  placard_text(8+i); name(); placard_text(9+i); name(); placard_text(10+i);
+  ^~~~~~~~~~~~
+fmain2.c:1336:2: warning: implicit declaration of function 'placard' [-Wimplicit-function-declaration]
+  placard(); Delay(380);
+  ^~~~~~~
+fmain2.c:1337:17: warning: implicit declaration of function 'RectFill' [-Wimplicit-function-declaration]
+  SetAPen(rp,0); RectFill(rp,13,13,271,107); Delay(10); SetAPen(rp,24);
+                 ^~~~~~~~
+fmain2.c:1342:2: warning: implicit declaration of function 'xfer' [-Wimplicit-function-declaration]
+  xfer(5511,33780,0); /* do princess transfer */
+  ^~~~
+fmain2.c: At top level:
+fmain2.c:1352:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ win_colors()
+ ^~~~~~~~~~
+fmain2.c: In function 'win_colors':
+fmain2.c:1356:23: warning: passing argument 2 of 'unpackbrush' from incompatible pointer type [-Wincompatible-pointer-types]
+  unpackbrush("winpic",bm_draw,0,0);
+                       ^~~~~~~
+In file included from ftale.h:9:0,
+                 from fmain2.c:1:
+iffsubs.h:2:13: note: expected 'struct BitMap *' but argument is of type 'struct BitMap *'
+ extern void unpackbrush(unsigned char *filename, struct BitMap *bitmap, int x, int y);
+             ^~~~~~~~~~~
+fmain2.c:1360:2: warning: implicit declaration of function 'screen_size' [-Wimplicit-function-declaration]
+  screen_size(156);
+  ^~~~~~~~~~~
+fmain2.c: At top level:
+fmain2.c:1388:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ day_fade()
+ ^~~~~~~~
+fmain2.c:1399:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ do_tactic(i,tactic) register long i,tactic;
+ ^~~~~~~~~
+fmain2.c: In function 'do_tactic':
+fmain2.c:1405:33: warning: implicit declaration of function 'set_course' [-Wimplicit-function-declaration]
+  if (tactic == PURSUE) { if (r) set_course(i,hero_x,hero_y,0); }
+                                 ^~~~~~~~~~
+fmain2.c: At top level:
+fmain2.c:1439:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ eat(amt)
+ ^~~
+fmain2.c: In function 'eat':
+fmain2.c:1439:1: warning: type of 'amt' defaults to 'int' [-Wimplicit-int]
+fmain2.c: At top level:
+fmain2.c:1449:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ set_loc()
+ ^~~~~~~
+iffsubs.c: In function 'unpackbrush':
+iffsubs.c:144:2: warning: implicit declaration of function 'DebugPutStr' [-Wimplicit-function-declaration]
+  DebugPutStr("unpackbrush() - ENTER\n");
+  ^~~~~~~~~~~
+iffsubs.c:148:11: warning: implicit declaration of function 'Open' [-Wimplicit-function-declaration]
+  myfile = Open(filename,1005);
+           ^~~~
+iffsubs.c:149:28: warning: 'return' with a value, in function returning void
+  if (myfile == 0) { return FALSE; }
+                            ^~~~~
+iffsubs.c:142:6: note: declared here
+ void unpackbrush(unsigned char *filename, struct BitMap *bitmap, int x, int y)
+      ^~~~~~~~~~~
+iffsubs.c:155:2: warning: implicit declaration of function 'ReadHeader' [-Wimplicit-function-declaration]
+  ReadHeader();
+  ^~~~~~~~~~
+iffsubs.c:158:4: warning: implicit declaration of function 'Close' [-Wimplicit-function-declaration]
+  { Close(myfile); return FALSE; }
+    ^~~~~
+iffsubs.c:158:26: warning: 'return' with a value, in function returning void
+  { Close(myfile); return FALSE; }
+                          ^~~~~
+iffsubs.c:142:6: note: declared here
+ void unpackbrush(unsigned char *filename, struct BitMap *bitmap, int x, int y)
+      ^~~~~~~~~~~
+iffsubs.c:159:2: warning: implicit declaration of function 'ReadLength' [-Wimplicit-function-declaration]
+  ReadLength(); file_length = blocklength;
+  ^~~~~~~~~~
+iffsubs.c:174:5: warning: implicit declaration of function 'Read' [-Wimplicit-function-declaration]
+     Read(myfile,&bmhd,blocklength);
+     ^~~~
+iffsubs.c:180:6: warning: implicit declaration of function 'DebugPutDec' [-Wimplicit-function-declaration]
+      DebugPutDec("Seek =", blocklength);
+      ^~~~~~~~~~~
+iffsubs.c:181:6: warning: implicit declaration of function 'Seek' [-Wimplicit-function-declaration]
+      Seek(myfile,blocklength,OFFSET_CURRENT);
+      ^~~~
+iffsubs.c:205:32: warning: implicit declaration of function 'unpack_line' [-Wimplicit-function-declaration]
+       { if (bitmap->Depth > 0) unpack_line(plane0); plane0+=bitmap->BytesPerRow;
+                                ^~~~~~~~~~~
+iffsubs.c:214:29: warning: 'return' with a value, in function returning void
+       Close(myfile); return FALSE;
+                             ^~~~~
+iffsubs.c:142:6: note: declared here
+ void unpackbrush(unsigned char *filename, struct BitMap *bitmap, int x, int y)
+      ^~~~~~~~~~~
+In file included from ftale.h:9:0,
+                 from hdrive.c:1:
+iffsubs.h:2:57: warning: 'struct BitMap' declared inside parameter list will not be visible outside of this definition or declaration
+ extern void unpackbrush(unsigned char *filename, struct BitMap *bitmap, int x, int y);
+                                                         ^~~~~~
+hdrive.c: In function 'AllocDiskIO':
+hdrive.c:36:13: warning: implicit declaration of function 'Lock' [-Wimplicit-function-declaration]
+  if (lock = Lock("image",ACCESS_READ))
+             ^~~~
+hdrive.c:39:3: warning: implicit declaration of function 'UnLock' [-Wimplicit-function-declaration]
+   UnLock(lock);
+   ^~~~~~
+hdrive.c:41:16: warning: implicit declaration of function 'Open' [-Wimplicit-function-declaration]
+   if ( (file = Open("image",MODE_OLDFILE)) == NULL ) return 30;
+                ^~~~
+hdrive.c:41:44: warning: comparison between pointer and integer
+   if ( (file = Open("image",MODE_OLDFILE)) == NULL ) return 30;
+                                            ^~
+hdrive.c:45:19: warning: implicit declaration of function 'CreatePort' [-Wimplicit-function-declaration]
+   if ((diskport = CreatePort(0,0))==0) return 30;
+                   ^~~~~~~~~~
+hdrive.c:45:17: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+   if ((diskport = CreatePort(0,0))==0) return 30;
+                 ^
+hdrive.c:47:35: warning: implicit declaration of function 'CreateExtIO' [-Wimplicit-function-declaration]
+   if ((diskreq1=(struct IOExtTD *)CreateExtIO(diskport,sizeof(struct IOExtTD)))==0) return 31;
+                                   ^~~~~~~~~~~
+hdrive.c:49:7: warning: implicit declaration of function 'OpenDevice' [-Wimplicit-function-declaration]
+   if (OpenDevice(TD_NAME,0,(struct IORequest *)diskreq1,0)) return 32;
+       ^~~~~~~~~~
+hdrive.c: In function 'FreeDiskIO':
+hdrive.c:61:12: warning: implicit declaration of function 'Close' [-Wimplicit-function-declaration]
+  if (file) Close(file);
+            ^~~~~
+hdrive.c:63:23: warning: implicit declaration of function 'CloseDevice' [-Wimplicit-function-declaration]
+  if (TSTFN(AL_TDISK)) CloseDevice((struct IORequest *)diskreq1);
+                       ^~~~~~~~~~~
+hdrive.c:64:24: warning: implicit declaration of function 'DeleteExtIO' [-Wimplicit-function-declaration]
+  if (TSTFN(AL_IOREQ))  DeleteExtIO((struct IORequest *)diskreq1);
+                        ^~~~~~~~~~~
+hdrive.c:65:22: warning: implicit declaration of function 'DeletePort' [-Wimplicit-function-declaration]
+  if (TSTFN(AL_PORT)) DeletePort(diskport);
+                      ^~~~~~~~~~
+hdrive.c: In function 'WaitDiskIO':
+hdrive.c:71:3: warning: implicit declaration of function 'WaitIO' [-Wimplicit-function-declaration]
+   WaitIO((struct IORequest *)&diskreqs[num]);
+   ^~~~~~
+hdrive.c: In function 'CheckDiskIO':
+hdrive.c:82:30: warning: implicit declaration of function 'CheckIO' [-Wimplicit-function-declaration]
+  if (hdrive == FALSE) return CheckIO((struct IORequest *)&diskreqs[num]);
+                              ^~~~~~~
+hdrive.c: At top level:
+hdrive.c:120:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ load_track_range(f_block,b_count,buffer,dr)
+ ^~~~~~~~~~~~~~~~
+hdrive.c: In function 'load_track_range':
+hdrive.c:133:3: warning: implicit declaration of function 'SendIO' [-Wimplicit-function-declaration]
+   SendIO((struct IORequest *)lastreq);
+   ^~~~~~
+hdrive.c:137:3: warning: implicit declaration of function 'Seek' [-Wimplicit-function-declaration]
+   Seek(file,f_block * 512,OFFSET_BEGINNING);
+   ^~~~
+hdrive.c:138:3: warning: implicit declaration of function 'Read' [-Wimplicit-function-declaration]
+   Read(file,buffer,b_count * 512);
+   ^~~~
+hdrive.c: At top level:
+hdrive.c:142:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ motor_off()
+ ^~~~~~~~~
+hdrive.c: In function 'motor_off':
+hdrive.c:149:3: warning: implicit declaration of function 'DoIO' [-Wimplicit-function-declaration]
+   DoIO((struct IORequest *)&diskreqs[9]);
+   ^~~~
 
 warning 51 in line 33 of "set_course.asm": instruction has been auto-aligned
 >		movem.l	d0-d7/a0-a1,-(sp)

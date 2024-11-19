@@ -4,6 +4,9 @@
 #include "graphics/display.h"
 #include "graphics/gfxbase.h"
 #include "graphics/gfx.h"
+#include "dos/dos.h"
+
+#include "iffsubs.h"
 
 #define FORM	tags[0]
 #define ILBM	tags[1]
@@ -18,7 +21,7 @@ char *kluge = "FORMILBMBMHDCMAPGRABBODYCAMGCRNG";
 long *tags;
 
 long file_length;
-long myfile;
+BPTR myfile;
 long header;
 long blocklength;
 
@@ -136,56 +139,91 @@ unpackpic(filename,bitmap) char *filename; struct BitMap *bitmap;
 }
 #endif
 
-unpackbrush(filename,bitmap,x,y)
-char *filename; struct BitMap *bitmap; short x,y;
-{	int bitoffset = (x + (bitmap->BytesPerRow)*y);
+void unpackbrush(unsigned char *filename, struct BitMap *bitmap, int x, int y)
+{
+	DebugPutStr("unpackbrush() - ENTER\n");
+	
+	int bitoffset = (x + (bitmap->BytesPerRow)*y);
 
 	myfile = Open(filename,1005);
 	if (myfile == 0) {	return FALSE; }
 
+	DebugPutStr(filename);
+	DebugPutStr(" FILE OPEN - SUCCES\n");
+
 	tags = (long *) kluge;
 	ReadHeader();
+
 	if (header != FORM)
 	{	Close(myfile); return FALSE; }
 	ReadLength(); file_length = blocklength;
 
+	DebugPutStr("HEADER OK |");
+
 	while (file_length)
-	{	ReadHeader();
-		if (header == ILBM) ;
-		else if (header == BMHD)
-		{	ReadLength(); Read(myfile,&bmhd,blocklength); }
-		else if (header == CAMG || header == CRNG //|| header == DEST
-			|| header == CMAP || header == GRAB)
-		{	ReadLength(); Seek(myfile,blocklength,0); }
-		else if (header == BODY)
-		{	int i;
+	{
+		ReadHeader();
+	
+		if (header == ILBM)
+		{
+			DebugPutStr("ILBM |");
+		} else {
+			if (header == BMHD)
+			{	DebugPutStr("BMHD |");
+				ReadLength();
+				Read(myfile,&bmhd,blocklength);
+			} else {
+				if (header == CAMG || header == CRNG || header == CMAP || header == GRAB)
+				{
+					DebugPutStr("CAMG || CRNG || CMAP || GRAB");
+					ReadLength();
+					DebugPutDec("Seek =", blocklength);
+					Seek(myfile,blocklength,OFFSET_CURRENT);
+					DebugPutStr("Seek SUCCESS\n");
 
-			packdata = shape_mem;
-			bytecount = ((bmhd.width+15)/8) & 0xfffe;
+				} else {
+					if (header == BODY)
+					{	
+						DebugPutStr("BODY\n");
 
-			ReadLength();
+						int i;
 
-			Read(myfile,packdata,blocklength);
+						packdata = shape_mem;
+						bytecount = ((bmhd.width+15)/8) & 0xfffe;
 
-			plane0 = (char *)(bitmap->Planes[0])+bitoffset;
-			plane1 = (char *)(bitmap->Planes[1])+bitoffset;
-			plane2 = (char *)(bitmap->Planes[2])+bitoffset;
-			plane3 = (char *)(bitmap->Planes[3])+bitoffset;
-			plane4 = (char *)(bitmap->Planes[4])+bitoffset;
-			compress = bmhd.compression;
-			for (i=0; i<bmhd.height; i++)
-			{	if (bitmap->Depth > 0) unpack_line(plane0); plane0+=bitmap->BytesPerRow;
-				if (bitmap->Depth > 1) unpack_line(plane1); plane1+=bitmap->BytesPerRow;
-				if (bitmap->Depth > 2) unpack_line(plane2); plane2+=bitmap->BytesPerRow;
-				if (bitmap->Depth > 3) unpack_line(plane3); plane3+=bitmap->BytesPerRow;
-				if (bitmap->Depth > 4) unpack_line(plane4); plane4+=bitmap->BytesPerRow;
+						ReadLength();
+
+						Read(myfile,packdata,blocklength);
+
+						plane0 = (char *)(bitmap->Planes[0])+bitoffset;
+						plane1 = (char *)(bitmap->Planes[1])+bitoffset;
+						plane2 = (char *)(bitmap->Planes[2])+bitoffset;
+						plane3 = (char *)(bitmap->Planes[3])+bitoffset;
+						plane4 = (char *)(bitmap->Planes[4])+bitoffset;
+						compress = bmhd.compression;
+						for (i=0; i<bmhd.height; i++)
+						{	if (bitmap->Depth > 0) unpack_line(plane0); plane0+=bitmap->BytesPerRow;
+							if (bitmap->Depth > 1) unpack_line(plane1); plane1+=bitmap->BytesPerRow;
+							if (bitmap->Depth > 2) unpack_line(plane2); plane2+=bitmap->BytesPerRow;
+							if (bitmap->Depth > 3) unpack_line(plane3); plane3+=bitmap->BytesPerRow;
+							if (bitmap->Depth > 4) unpack_line(plane4); plane4+=bitmap->BytesPerRow;
+						}
+						break;
+					} else {
+						DebugPutStr("ERROR: Close FILE\n"); 
+						Close(myfile); return FALSE;
+					}
+				}
 			}
-			break;
 		}
-		else { Close(myfile); return FALSE; }
 	}
+
+	DebugPutStr("SUCCESS: Close FILE\n"); 
 	Close(myfile);
-	return TRUE;
+
+	DebugPutStr("unpackbrush() - EXIT\n");
+
+	return;
 }
 
 #ifdef blarg

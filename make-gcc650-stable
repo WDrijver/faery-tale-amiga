@@ -18,22 +18,23 @@ C_COMPILER	= $(PREFIX)/bin/m68k-amigaos-gcc
 C_LIB 		= -noixemul
 # C_LIB = -mcrt=clib2
 
-C_INCL_CLB	= $(PREFIX)/$(TARGET)/libnix/include
+# C_INCL_CLB	= $(PREFIX)/$(TARGET)/libnix/include
 # C_INCL_CLB  = $(PREFIX)/$(TARGET)/clib2/include
 # C_INCL_CLB  = $(PREFIX)/lib/gcc/m68k-amigaos/6.5.0b/include
 
 C_INCL		= $(PREFIX)/$(TARGET)/include
 C_INCL_SYS	= $(PREFIX)/$(TARGET)/sys-include
 C_INCL_NDK	= $(PREFIX)/$(TARGET)/ndk-include
-C_INCL_SDL  = $(PREFIX)/$(TARGET)/include/SDL
-C_INCL_ALL 	= -I$(C_INCL_CLB) -I$(C_INCL) -I$(C_INCL_SYS) -I$(C_INCL_NDK) -I$(C_INCL_SDL)
+# C_INCL_SDL  = $(PREFIX)/$(TARGET)/include/SDL
+C_INCL_ALL 	= -I$(C_INCL) -I$(C_INCL_SYS) -I$(C_INCL_NDK)
 
-C_LIBS_CLB	= $(PREFIX)/$(TARGET)/libnix/lib
+# C_LIBS_CLB	= $(PREFIX)/$(TARGET)/libnix/lib
 # C_LIBS_CLB = $(PREFIX)/$(TARGET)/clib2/lib
-C_LIBS_ALL	= -L$(C_LIBS_CLB) -lamiga
+C_LIBS_ALL	= -lamiga
 
 # Define C Options
-C_OPTIONS = -O2 -m68080 -m68881 -fomit-frame-pointer -ffast-math -DREGPARM=4 -DM68K=1 -w
+C_OPTIONS = -m68080 -m68881 -fomit-frame-pointer -ffast-math 
+#-DREGPARM=4 -DM68K=1 -w
 C_FLAGS = $(C_LIB) $(C_OPTIONS) $(C_INCL_ALL) $(C_LIBS_ALL)
 
 # Define ASM Compiler
@@ -59,8 +60,8 @@ S_OBJECTDIR = .
 # Define Object Filelist
 C_FILES = $(wildcard $(C_SOURCEDIR)/*.c)
 S_FILES = $(wildcard $(S_SOURCEDIR)/*.asm)
-O_FILES = 	ApolloDebug.o fmain.o fmain2.o iffsubs.o hdrive.o \
-			cursor.o fsubs.o gdriver.o narr.o set_course.o prq.o stuff_flag.o 
+O_FILES = 	fmain.o fmain2.o iffsubs.o hdrive.o \
+			cursor.o fsubs.o gdriver.o narr.o set_course.o prq.o stuff_flag.o ApolloDebug.o ApolloCPUDelay.o 
 
 # $(patsubst $(C_SOURCEDIR)/%.c,$(C_OBJECTDIR)/%.o,$(C_FILES)) $(patsubst $(S_SOURCEDIR)/%.s,$(S_OBJECTDIR)/%.o,$(S_FILES))
 

@@ -42,12 +42,13 @@ ywrap		macro
 			endm
 
 
-			public _trapper
+			XDEF _trapper
 _trapper
 			move.l	(sp)+,4(a1)
 			rte
 
-			public	_HandlerInterface,_ion,_numbuf,_getkey
+			XDEF	_HandlerInterface,_ion,_getkey
+			XREF	_numbuf
 
 RAWKEY			equ		1
 RAWMOUSE		equ		2
@@ -62,7 +63,7 @@ xsprite		equ		0
 ysprite		equ		2
 qualifier	equ		4
 
-		public	_LVOMoveSprite
+		XREF	_LVOMoveSprite
 
 _HandlerInterface:
 		movem.l	d1-d2/a1-a3,-(sp)
@@ -228,11 +229,12 @@ keytrans	dc.b	"`1234567890-=\?0"
 XY			equ		128		; then x/2 then y
 ETX			equ		0
 
-			public	_ssp,_titletext,_GfxBase
+			XDEF	_ssp,_titletext
+			XREF 	_GfxBase
 
 			dseg
 
-			public	_titletext
+			XDEF	_titletext
 _titletext	dc.b	XY,(160-26*4)/2,33,$22,"The Faery Tale Adventure",$22
 			dc.b	XY,(160-30*4)/2,79,"Animation, Programming & Music"
 			dc.b	XY,(160-2*4)/2,90,"by"
@@ -245,7 +247,7 @@ _titletext	dc.b	XY,(160-26*4)/2,33,$22,"The Faery Tale Adventure",$22
 ;			dc.b	XY,168/2,160,"Copyright (C) 1986 MicroIllusions "
 			dc.b	ETX
 
-			public _hinor,_hivar
+			XDEF _hinor,_hivar
 _hinor
 			dc.l	$01FFF8FF,$FC038000,$01FF0007,$FC038000
 			dc.l	$07E0F078,$3F038000,$190FE03F,$C4C38000
@@ -277,7 +279,7 @@ _hivar
 
 			cseg
 
-			public	_handler_data
+			XREF	_handler_data
 _getkey
 			movem.l	a1/d1,-(sp)
 			lea		_handler_data,a1
@@ -293,8 +295,9 @@ _getkey
 getkeyx		movem.l	(sp)+,a1/d1
 			rts
 
-			public	_rand,_seed1,_bitrand,_rnd
-			public	_rand2,_rand4,_rand8,_rand64,_rand256
+			XDEF	_rand,_bitrand,_rnd
+			XDEF	_rand2,_rand4,_rand8,_rand64,_rand256
+			XREF	_seed1
 
 _rand
 			move.l	_seed1,d0
@@ -337,7 +340,7 @@ _rnd		bsr	_rand		; rand() % x
 			swap	d0			; get top half
 			rts
 
-			public	_prdec
+			XDEF	_prdec
 
 _prdec		
 			movem.l	a0-a6/d0-d7,-(sp)
@@ -377,7 +380,8 @@ ion2		move.b	#$20,(a0,d1)	; space fill until end
 			dbf		d1,ion2
 			rts
 
-			public	_move,_rp,_text,_placard,_rp_map
+			XDEF	_move,_text,_placard
+			XREF	_rp, _rp_map
 
 MOD		equ		4
 
@@ -413,13 +417,13 @@ jloop
 		moveq	#4,d4			; k loop
 kloop	moveq	#1,d0			; color
 		tst.w	d4
-		bne	kloop2
+		bne		kloop2
 		add.w	#23,d0
 kloop2	jsr		SetAPen(a6)
 
 		move.l	(sp),d0
 		cmp.l	#9,d0
-		bls	kloop3
+		bls		kloop3
 
 		move.l	d6,d0			; xorg
 		move.l	d7,d1			; yorg
@@ -536,8 +540,8 @@ sspx
 			rts			
 
 
-		public	_px_to_im,_xreg,_yreg,_map_mem,_sector_mem
-		public	_terra_mem
+		XDEF	_px_to_im
+		XREF	_xreg,_yreg,_map_mem,_sector_mem,_terra_mem
 
 _px_to_im
 		move.l	4(sp),d0			; x coord
@@ -621,9 +625,9 @@ px99
 ;		iff subroutines
 ;-----------------------------------------------------------------------
 ;	xdefs
-		public	_ReadLength,_ReadHeader
+		XDEF	_ReadLength,_ReadHeader
 ;	xrefs
-		public	_file_length,_blocklength,_myfile,_DOSBase,_header
+		XREF	_file_length,_blocklength,_myfile,_DOSBase,_header
 
 _ReadHeader
 		movem.l		d1-d3/a0-a1,-(sp)
@@ -660,7 +664,8 @@ _ReadLength
 
 IPLAN_SZ	equ		16384			; 16K = 256 * 64
 
-		public	_map_draw,_image_mem,_minimap,_planes
+		XDEF	_map_draw
+		XREF	_image_mem,_minimap,_planes
 _map_draw
 		movem.l	d0-d7/a0-a6,-(sp)
 
@@ -778,7 +783,7 @@ no_image
 		clr.l	d7
 		rts
 
-		public	_strip_draw
+		XDEF	_strip_draw
 _strip_draw
 		movem.l	d0-d7/a0-a6,-(sp)
 
@@ -815,7 +820,7 @@ _strip_draw
 		movem.l	(sp)+,d0-d7/a0-a6
 		rts
 
-		public	_row_draw
+		XDEF	_row_draw
 _row_draw
 		movem.l	d0-d7/a0-a6,-(sp)
 
@@ -894,12 +899,13 @@ next_char
 		add.w	#12,a6				; next character in row
 		rts
 
-		public	_maskit,_bmask_mem,_shadow_mem
+		XDEF	_maskit
+		XREF	_bmask_mem,_shadow_mem
 
 ;		maskit(x,y,mod,char);
 
-			public	_bigdraw,_secx,_secy
-			public	_dbg
+			XDEF	_bigdraw
+			XREF	_secx,_secy,_dbg
 _bigdraw
 			movem.l  d1-d7/a0-a6,-(sp) ; save regs
 			move.l	_map_mem,a0
@@ -1082,7 +1088,7 @@ mit10
 		movem.l	(sp)+,d2-d6/a1/a0
 		rts
 
-		public	_mapxy
+		XDEF	_mapxy
 _mapxy
 		move.l	4(sp),d0			; x coord (in images)
 		move.l	8(sp),d1			; y coord (in images)
@@ -1132,7 +1138,8 @@ mxy30
 		movem.l	(sp)+,d2-d4/a1
 		rts
 
-		public	_genmini,_hero_x,_hero_y,_hero_sector,_region_num
+		XDEF	_genmini
+		XREF 	_hero_x,_hero_y,_hero_sector,_region_num
 _genmini
 		move.l	4(sp),d1		; parameter 1 - img_x
 		move.l	8(sp),d0		; parameter 2 - img_y
@@ -1223,7 +1230,8 @@ loc10	move.w	d2,_hero_sector
 		movem.l	(sp)+,d0-d7/a0-a2
 		rts
 
-		public	_unpack_line,_compress,_bytecount,_packdata
+		XDEF	_unpack_line
+		XREF	_compress,_bytecount,_packdata
 
 _unpack_line
 		move.l	d2,-(sp)
@@ -1276,7 +1284,7 @@ upl40
 xdir	dc.w	-2,0,2,3,2,0,-2,-3,0,0
 ydir	dc.w	-2,-3,-2,0,2,3,2,0,0,0
 
-		public	_newx,_newy
+		XDEF	_newx,_newy
 _newx
 		movem.l	d2/d3,-(sp)
 		move.l	4+8(sp),d0	; x coord
@@ -1317,7 +1325,7 @@ _newy
 newyy	movem.l	(sp)+,d2/d3
 		rts
 
-;		public	_joyread,_xjoy,_yjoy
+;		XDEF	_joyread,_xjoy,_yjoy
 
 ;_joyread
 ;		lea		$dff000,a0
@@ -1345,7 +1353,7 @@ newyy	movem.l	(sp)+,d2/d3
 ;		move.b	d3,d0
 ;		rts
 
-		public	_wrap
+		XDEF	_wrap
 _wrap
 		move.l	4(sp),d0
 		btst	#14,d0
@@ -1355,7 +1363,8 @@ _wrap
 wrap1	and.w	#$7fff,d0
 		rts
 
-		public	_map_adjust,_map_x,_map_y
+		XDEF	_map_adjust
+		XREF	_map_x,_map_y
 _map_adjust
 		move.l	4(sp),d0
 		move.l	8(sp),d1
@@ -1421,7 +1430,7 @@ check99
 		movem.l	(sp)+,d2/d3
 		rts
 
-		public	_do_error
+		XDEF	_do_error
 errms	dc.b	"ERROR "
 _do_error
 		move.l	4(sp),d0
@@ -1445,7 +1454,7 @@ _do_error
 
 doerrx	rts
 
-		public	_page_det
+		XDEF	_page_det
 _page_det
 		move.l	d1,-(sp)
 		move.l	8(sp),d1
@@ -1485,7 +1494,8 @@ pagex
 pd10	dc.b	9,9,8,7,6,5,5,5,4,4,4
 com2	dc.b	0,1,2,7,9,3,6,5,4
 
-		public	_decode_mouse,_handler_data,_keydir,_oldir,_drawcompass
+		XDEF	_decode_mouse
+		XREF	_handler_data,_keydir,_oldir,_drawcompass
 _decode_mouse
 		movem.l	a0/d0-d4,-(sp)
 
@@ -1585,7 +1595,7 @@ setcompx
 		movem.l	(sp)+,a0/d0-d4
 		rts
 
-		public	_prox
+		XDEF	_prox
 
 _prox
 		move.l	4(sp),d0
@@ -1610,7 +1620,7 @@ _prox
 		clr.l	d0
 prox99	rts
 
-		public	_make_mask
+		XDEF	_make_mask
 
 ; dynamically creates shape mask from shape data
 ;	assumes color 31 = transparent
@@ -1657,7 +1667,7 @@ mm05
 ; this routine scrolls the screen very fast using only two blit channels
 ;		on entry, a0 contains the harware regs, a1 address of bltnode
 
-		public	_scrollmap
+		XDEF	_scrollmap
 
 bltnode		equ		0
 pl0			equ		18
@@ -1790,7 +1800,7 @@ _scrollmap
 		movem.l	(sp)+,a2-a6/d1-d2	; restore regs
 		rts
 
-		public	_clear_blit
+		XDEF	_clear_blit
 
 ; blit clear an area of memory
 
@@ -1830,8 +1840,8 @@ planesize	equ		44
 shift		equ		36
 wmask		equ		46
 
-		public		_shape_blit,_shp,_shapedata,_mask_buffer
-		public		_planesize,_wmask,_aoff,_boff,_bmod,_shift
+		XDEF		_shape_blit
+		XREF		_shp,_shapedata,_mask_buffer,_planesize,_wmask,_aoff,_boff,_bmod,_shift
 
 _shape_blit
 		movem.l	a2-a4/a6/d1-d3,-(sp)
@@ -1901,7 +1911,7 @@ sb10
 		movem.l	(sp)+,a2-a4/a6/d1-d3		; restore regs
 		rts
 
-		public	_mask_blit
+		XDEF	_mask_blit
 
 ; this routine creates the composite backround mask
 
@@ -1948,7 +1958,7 @@ _mask_blit
 		movem.l	(sp)+,a2-a4/a6/d1-d3		; restore regs
 		rts
 
-		public		_save_blit
+		XDEF		_save_blit
 
 _save_blit
 		movem.l	a2-a4/a6/d1-d3,-(sp)
@@ -1996,7 +2006,7 @@ _save_blit
 
 		rts
 
-		public		_rest_blit
+		XDEF		_rest_blit
 
 _rest_blit
 		movem.l	a2-a4/a6/d1-d3,-(sp)

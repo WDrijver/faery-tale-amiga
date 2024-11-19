@@ -495,7 +495,7 @@ char numbuf[11] = { 0,0,0,0,0,0,0,0,0,0,' '};
 
 /* definitions for the option menus */
 
-enum cmodes {ITEMS=0, MAGIC, TALK, BUY, GAME, SAVEX, KEYS, GIVE, USE, FILE};
+enum cmodes {ITEMS=0, MAGIC, TALK, BUY, GAME, SAVEX, KEYS, GIVE, USE, FILEX};
 
 char label1[] = "ItemsMagicTalk Buy  Game ";
 char label2[] = "List Take Look Use  Give ";
@@ -731,7 +731,10 @@ BOOL			audio_open;
 struct BitMap work_bm;
 
 open_all()
-{	register long i;
+{
+	DebugPutStr("open_all() - ENTER\n");
+	
+	register long i;
 	long file;
 
 	openflags = 0;
@@ -949,6 +952,9 @@ open_all()
 
 	nhinor = into_chip(&hinor,(16*16));
 	nhivar = into_chip(&hivar,(16*16));
+
+	DebugPutStr("open_all() - EXIT\n");
+
 	return 0;
 }
 
@@ -1130,6 +1136,7 @@ found:
 }
 
 extern char titletext[];
+extern char msg1[];
 
 void main(int argc,char argv[])
 {
@@ -1146,14 +1153,16 @@ void main(int argc,char argv[])
 	}
 
 	DebugInit();
-	DebugPutStr("Welcome to FaeryTale Debugging\n");
+	DebugPutStr("\n\n\nWelcome to FaeryTale Debugging\n");
 
 	light_timer = 0;
 	i = open_all();
 	if (i) { do_error(i); goto quit_all; }
 
-	stopscore();
+	//DebugPutStr("Calling stopscore()\n");
+	//stopscore();
 
+	DebugPutStr("Init Variables\n");
 	vp_page.RasInfo = &ri_page1;
 	fp_page2.ri_page = &ri_page2;
 	rp_map.BitMap =  fp_viewing->ri_page->BitMap; SetRast(&rp_map,0);
@@ -1163,33 +1172,37 @@ void main(int argc,char argv[])
 	SetRGB4(&vp_page,0,0,0,6);
 	SetRGB4(&vp_page,1,15,15,15);
 
-	/* showlegals */
-
+	DebugPutStr("Show Legals\n");
 	i = rp->FgPen;
 	SetAPen(rp,1);
 	ssp(titletext);
 	SetAPen(rp,i);
-
-	Delay(50);
+	DebugPutStr("Delay 5000\n");
+	ApolloCPUDelay(5000);
 
 	rp = &rp_text;
 	rp_text.BitMap = &bm_scroll;
 	SetFont(rp,afont); SetAPen(rp,10); SetBPen(rp,11);
 
+	DebugPutStr("read_score() and read_sample()\n");
 	read_score();
 	read_sample();
 
-	Delay(50);
-
-	vp = &vp_page;			/* so that iff subs can communicate */
+	vp = &vp_page;							/* so that iff subs can communicate */
 	vp_page.RasInfo = &ri_page1;
 
 	for (i=0; i<5; i++)
-	{	pagea.Planes[i] = (pageb.Planes[i]=image_mem+(i*8000)) + 40000; }
+	{
+		pagea.Planes[i] = (pageb.Planes[i]=image_mem+(i*8000)) + 40000;
+	}
+	
 	bm_lim->Planes[0] = sector_mem;
 
+	DebugPutStr("Calling play_score()\n");
 	playscore(track[12],track[13],track[14],track[15]);
+	ApolloCPUDelay(1000);
 
+	DebugPutStr("Calling LoadRGB4()\n");
 	LoadRGB4(&vp_text,blackcolors,32);
 
 	fp_page2.ri_page = &ri_page2;
@@ -1198,22 +1211,28 @@ void main(int argc,char argv[])
 	pagechange();		/* 'prime the pump' */
 	pagechange();
 
-	if (skipint()) goto no_intro;
+	if (skipint()) goto no_intro;				//[WD] re-enable later
 
+	DebugPutStr("Calling unpackbrush & BltBitMap\n");
 	unpackbrush("page0",&pageb,0,0);
 	BltBitMap(&pageb,0,0,bm_page1,0,0,320,200,0xC0,0x1f,0);
 	BltBitMap(&pageb,0,0,bm_page2,0,0,320,200,0xC0,0x1f,0);
 
 	fp_page2.ri_page = &ri_page1;
+	DebugPutDec("screen_size()",i);
 	for (i=0; i<=160; i+=4) screen_size(i);
 	fp_page2.ri_page = &ri_page2;
 
 	if (skipint()) goto end_intro;
+	
+	DebugPutStr("copypage() - 3X\n");
 	copypage("p1a","p1b",21,29);
 	copypage("p2a","p2b",20,29);
 	copypage("p3a","p3b",20,33);
-	if (!skipp) Delay(190);
+	if (!skipp) ApolloCPUDelay(5000);
+
 end_intro:
+	DebugPutStr("end_intro\n");
 	fp_page2.ri_page = &ri_page1;
 	for (i=156; i>=0; i-=4) screen_size(i);
 
@@ -1240,18 +1259,24 @@ no_intro:
 	rp = &rp_map;
 	rp_map.BitMap =  fp_drawing->ri_page->BitMap;
 	stillscreen();
+
 	SetAPen(rp,1);
-	placard_text(19);
+		
+	//DebugPutStr("placard_text()\n");
+	//placard_text((unsigned long)19);
+	//ApolloCPUDelay(3000);
+
 	handler_data.laydown = handler_data.pickup = 0;
 	k = TRUE;
-	if (copy_protect_junk()==0) goto quit_all;
-	Delay(20);
-	
-	ri_page1.RxOffset = ri_page2.RxOffset =
-		ri_page1.RyOffset = ri_page2.RyOffset = 0;
 
+	ri_page1.RxOffset = ri_page2.RxOffset =	ri_page1.RyOffset = ri_page2.RyOffset = 0;
+
+	DebugPutStr("Calling stopscore()\n");
 	stopscore();
+		
+	DebugPutStr("Calling revive()\n");
 	revive(TRUE);
+	
 	rp_map.BitMap = fp_drawing->ri_page->BitMap;
 
 	/* establish text page */
@@ -1274,6 +1299,8 @@ no_intro:
 	cmode = 0; print_options();
 
 	/* main program loop */
+
+	DebugPutStr("\n*******************************\nMain Program Loop\n");
 
 	cheat1 = quitflag = FALSE;
 	while (!quitflag)
@@ -2143,7 +2170,7 @@ no_intro:
 					{	if (leader == 0) mode = FLEE;
 						else mode = FOLLOWER;
 					}
-/* special encounters don't flee with 60 xtype */
+					/* special encounters don't flee with 60 xtype */
 					else if (an->vitality < 2 ||
 							(xtype > 59 && an->race != extn->v3))
 								mode = FLEE;
@@ -2623,6 +2650,7 @@ no_intro:
 		if (viewstatus == 3) { fade_normal(); viewstatus = 0; }
 	}
 	stopscore();
+
 quit_all:
 	rp_text.BitMap = wb_bmap;
 	SetRast(&rp_text,0);
@@ -2821,7 +2849,10 @@ struct bro {
 	{ 15,20,35,10,kevstuff } };	/* kevin's attributes */
 
 revive(new) short new;
-{	/* new tells if this is a new character */
+{	
+	DebugPutStr("revive(new) - ENTER\n");
+	
+	/* new tells if this is a new character */
 	register struct bro *br;
 	register struct shape *an;
 
@@ -2876,7 +2907,12 @@ revive(new) short new;
 		else if (brother == 3) placard_text(3);
 		else placard_text(5);
 
-		placard(); Delay(120);
+		ApolloCPUDelay(5000);
+
+		//DebugPutStr("Calling placard()\n");
+		//placard(); Delay(120);
+
+		DebugPutStr("If Brother > 3\n");
 
 		if (brother > 3) { quitflag = TRUE; Delay(500); }
 		else if (brother > 1)
@@ -2918,6 +2954,8 @@ revive(new) short new;
 	prq(7); prq(4);
 	if (brother > 3) viewstatus = 2; else { viewstatus = 3; setmood(TRUE); }
 	fiery_death = xtype = 0;
+
+	DebugPutStr("revive(new) - EXIT\n");
 }
 
 screen_size(x) register long x;
@@ -3078,7 +3116,7 @@ propt(j,pena) short j,pena;
 
 	k = real_options[j];
 	if (cmode==USE) penb=14;
-	else if (cmode == FILE) penb = 13;
+	else if (cmode == FILEX) penb = 13;
 	else if (k<5) penb = 4;
 	else if (cmode==KEYS) penb = keycolors[k-5];
 	else if (cmode==SAVEX) penb = k;
@@ -3449,7 +3487,7 @@ do_option(hit) short hit;
 	case GAME: 
 		if (hit==6) setmood(TRUE);
 		if (hit==8) gomenu(SAVEX);
-		if (hit==9) { svflag = FALSE; gomenu(FILE); }
+		if (hit==9) { svflag = FALSE; gomenu(FILEX); }
 		break;
 	case USE:
 		if (hit == 7)
@@ -3470,9 +3508,9 @@ do_option(hit) short hit;
 		break;
 	case SAVEX:
 		if (hit == 6) quitflag = TRUE;
-		if (hit == 5) { svflag = TRUE; gomenu(FILE); }
+		if (hit == 5) { svflag = TRUE; gomenu(FILEX); }
 		break;
-	case FILE:
+	case FILEX:
 		savegame(hit);
 		gomenu(GAME);
 		break;
@@ -3531,7 +3569,10 @@ gomenu(mode) short mode;
 }
 
 set_options()
-{	register long i,j;
+{	
+	DebugPutStr("set_options()\n");
+	
+	register long i,j;
 	for (i=0; i<7; i++)
 	{	menus[MAGIC].enabled[i+5] = stuff_flag(i+9);
 		menus[USE].enabled[i] = stuff_flag(i);

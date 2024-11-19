@@ -174,7 +174,10 @@ struct ViewPort vp_page;
 extern UWORD region_num, new_region;
 
 fade_page(r,g,b,limit,colors) short r,g,b,limit; USHORT *colors;
-{	register long r1,b1,g1,g2;
+{
+	//DebugPutStr("fade_page()\n");
+	
+	register long r1,b1,g1,g2;
 	short i;
 
 	if (region_num == 4) pagecolors[31] = 0x0980;
@@ -432,7 +435,10 @@ fade_normal()
 	for (i=0; i<=100; i+=5) { fade_page(i,i,i,FALSE,pagecolors); Delay(1); } }
 
 stillscreen()
-{	fp_drawing->ri_page->RxOffset = fp_drawing->ri_page->RyOffset = 0;
+{	
+	DebugPutStr("stillscreen()\n");
+	
+	fp_drawing->ri_page->RxOffset = fp_drawing->ri_page->RyOffset = 0;
 	pagechange();
 }
 

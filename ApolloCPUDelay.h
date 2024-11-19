@@ -1,3 +1,6 @@
+// Apollo V4 SAGA libraries
+// Willem Drijver
+
 #ifdef __cplusplus
 extern "C"{
 #endif 
@@ -7,7 +10,8 @@ extern "C"{
 #include <exec/types.h>
 #include "ApolloRegParam.h"
 
-extern _REG void prq( _D0(short prec), _D1(short pplay), _A1(char* print_que) );
+extern _REG void ApolloCPUDelay( _D0(ULONG WaitTime));
+
 
 #ifdef __cplusplus
 }
