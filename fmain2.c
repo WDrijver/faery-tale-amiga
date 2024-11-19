@@ -332,7 +332,7 @@ extract(start) register unsigned char *start;
 }
 			
 
-msg(start,num) register char *start; register long num;
+/*msg(start,num) register char *start; register long num;
 {
 	while (num) if (*start++ == 0) num--;
 	extract(start);
@@ -354,7 +354,7 @@ event(num) register long num;
 
 	while (num) if (*start++ == 0) num--;
 	extract(start);
-}
+}*/
 
 
 /*

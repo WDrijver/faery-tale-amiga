@@ -1,4 +1,6 @@
-	public	_colorplay
+	XDEF	_colorplay
+	XREF	_fader,_rand,_vp_page,_LoadRGB4,_Delay
+
 _colorplay
 	movem.l	d4/d5,-(sp)
 	move.l	#31,d5
@@ -24,7 +26,9 @@ _colorplay
 	movem.l	(sp)+,d4/d5
 	rts
 
-	public	_stillscreen
+	XDEF	_stillscreen
+	XREF	_fp_drawing,_pagechange
+
 _stillscreen
 	move.l	_fp_drawing,a0	; get fp_page
 	move.l	(a0),a1			; get rasinfo
@@ -32,7 +36,9 @@ _stillscreen
 	jsr		_pagechange		; change pages
 	rts
 
-	public	_skipint
+	XDEF	_skipint
+	XREF	_skipp
+
 _skipint
 	jsr	_getkey				; get a key
 	cmp.l	#32,d0			; if = space

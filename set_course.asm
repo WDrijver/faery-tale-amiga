@@ -31,10 +31,10 @@ l_shape	    = 22
 com2	dc.b	0,1,2,7,9,3,6,5,4
 
 		movem.l	d0-d7/a0-a1,-(sp)
-		*move.l	40+4(sp),d2		    * object #
-		*move.l	40+8(sp),d0		    * target x
-		*move.l	40+12(sp),d1		* target_y
-		*move.l	40+16(sp),d3		* mode
+		move.l	40+4(sp),d2		    * object #
+		move.l	40+8(sp),d0		    * target x
+		move.l	40+12(sp),d1		* target_y
+		move.l	40+16(sp),d3		* mode
 
 		lea		_anim_list,a1		* start of anim_list
 		mulu.w	#l_shape,d2		    * object # times length of struct

@@ -1,7 +1,7 @@
 *	This will be my attempt to create audio interrupt handlers for the
 *	four-voice music program.
 
-			cseg
+			section init code
 
 RemIntServer	EQU	$FFFFFF52
 AddIntServer	EQU	$FFFFFF58
@@ -12,7 +12,7 @@ INTENAR		equ		$1c
 INTREQ		equ		$9c
 INTREQA		equ		$1e
 
-			public		_vblank_data
+			XDEF	_vblank_data
 
 nosound		equ	0 			; sound inhibit byte
 flag_codes	equ 1			; sync byte
@@ -282,14 +282,14 @@ audx1
 
 ;	non-interrupt routines
 
-			public	_stopscore
-			public	_playscore
-			public	_setscore
-			public	_init_music
-			public	_wrap_music
-			public	_playsample
-			public	_stopsample
-			public	_set_tempo
+			XDEF	_stopscore
+			XDEF	_playscore
+			XDEF	_setscore
+			XDEF	_init_music
+			XDEF	_wrap_music
+			XDEF	_playsample
+			XDEF	_stopsample
+			XDEF	_set_tempo
 
 ; playsample(effect,length,rate)
 
@@ -480,7 +480,7 @@ _wrap_music
 			move.l	(sp)+,a6
 			rts
 
-			dseg
+			section vars data
 
 int_name	dc.b	"music vblank"
 			dc.b	0

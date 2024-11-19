@@ -4,7 +4,7 @@ SetAPen	    =	$FFFFFEAA
 SetBPen	    =	$FFFFFEA4
 
 			XREF	_GfxBase
-			XDEF	_cursor
+			XDEF	_cursor,_xx,_yy,_answr,_rp
 
 _cursor
 			movem.l	a0-a6/d0-d7,-(sp)
@@ -14,17 +14,17 @@ _cursor
 			clr.l	d0					// set B pen color = 0
 			jsr		SetBPen(a6)
 
-			*clr.l	d0					// d0 already clear
-			*clr.l	d1
-			*move.w	_xx,d0
-			*move.w	_yy,d1
+			clr.l	d0					// d0 already clear
+			clr.l	d1
+			move.w	_xx,d0
+			move.w	_yy,d1
 			jsr		Move(a6)
 
-			*lea		_answr,a0			// string = answr
+			lea		_answr,a0			// string = answr
 			move.l	60+4(sp),d0			// length of string = arg 1
 			jsr		Text(a6)
 
-			*move.l	_rp,a1
+			move.l	_rp,a1
 			
 			move.l	60+8(sp),d0			// set B pen color = arg 2
 			jsr		SetBPen(a6)

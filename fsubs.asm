@@ -25,7 +25,7 @@ ie_NextEvent	equ		0
 
 xwrap		macro
 			btst	#6,\1				; if 0-64, process normally
-			beq	98$
+			beq		98$
 			btst	#5,\1				; else wrap in various directions
 			seq		d2					; if zero, set to all 1's (mask 63)
 			and.w	#63,\1				; else set to all zero's
@@ -232,7 +232,7 @@ ETX			equ		0
 			XDEF	_ssp,_titletext
 			XREF 	_GfxBase
 
-			dseg
+			section data data
 
 			XDEF	_titletext
 _titletext	dc.b	XY,(160-26*4)/2,33,$22,"The Faery Tale Adventure",$22
@@ -277,9 +277,8 @@ _hivar
 			dc.l	$CFE0F278,$3F3C8000,$F3FF0207,$FF008000
 			dc.l	$03FFF8FF,$FFFF0000
 
-			cseg
+			section code code
 
-			XREF	_handler_data
 _getkey
 			movem.l	a1/d1,-(sp)
 			lea		_handler_data,a1
