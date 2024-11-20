@@ -1,0 +1,18 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/../ApolloCrossDev/Compilers/GCC-6.50-Stable/ApolloCrossDev/",
+                "/home/willem/ApolloCrossDev/Compilers/GCC-6.50-Stable/ApolloCrossDev/m68k-amigaos/ndk-include"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c17",
+            "cppStandard": "gnu++17",
+            "intelliSenseMode": "linux-gcc-x64"
+        }
+    ],
+    "version": 4
+}

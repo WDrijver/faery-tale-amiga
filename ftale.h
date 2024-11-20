@@ -3,8 +3,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 
-#include "ApolloDebug.h"
-#include "ApolloCPUDelay.h"
+#include "Apollo.h"
 
 #include "iffsubs.h"
 
@@ -17,10 +16,10 @@
 #include "exec/exec.h"
 #include "exec/ports.h"
 #include "exec/io.h"
-#include "devices/audio.h"
-#include "workbench/startup.h"
 #include "exec/types.h"
 #include "exec/memory.h"
+#include "devices/audio.h"
+#include "workbench/startup.h"
 #include "graphics/view.h"
 #include "hardware/blit.h"
 #include "hardware/custom.h"
@@ -89,6 +88,8 @@
 #define EGG_SEEK	10	/* snakes going for the eggs */
 #define DOOR_SEEK	11	/* dknight blocking door */
 #define DOOR_LET	12	/* dknight letting pass */
+
+#define BGMUSIC_BUFFER_SIZE	(25 * 1024 * 1024)
 
 struct shape {
 	unsigned short	abs_x, abs_y, rel_x, rel_y;

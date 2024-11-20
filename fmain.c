@@ -2,6 +2,7 @@
 
 #include "ftale.h"
 #include "fmain.h"
+#include "exec/types.h"
 
 /****** this section defines the variables used to communicate with the 
 		graphics routines */
@@ -15,6 +16,11 @@
 #define PAGE_HEIGHT	143
 #define RAST_HEIGHT	200
 #define TEXT_HEIGHT	57
+
+// Apollo Variables
+char	message[120];
+UBYTE	*BackGround_Intro_Buffer, *BackGround_Day_Buffer, *BackGround_Battle_Buffer, *BackGround_Night_Buffer, *BackGround_Interior_Buffer, *BackGround_Death_Buffer;
+ULONG 	BackGround_Intro_Lenght, BackGround_Day_Lenght, BackGround_Battle_Lenght, BackGround_Night_Lenght, BackGround_Interior_Lenght, BackGround_Death_Lenght;
 
 extern struct MsgPort *CreatePort();
 extern struct IOStdReq *CreateStdIO();
@@ -661,6 +667,7 @@ unsigned char
 	*bmask_mem, *queue_mem,
 	*sample_mem,
 	*terra_mem;	/* Terrain data */
+
 #define free_chip(new,old,size) if (new!=old) FreeMem(new,size);
 
 unsigned char *nextshape, *tempshape;
@@ -916,6 +923,8 @@ open_all()
 		}
 	}
 
+	// Buffer Allocations
+
 	if ((wavmem = AllocMem(VOICE_SZ,MEMF_CHIP)) == NULL) return 16;
 	if ((scoremem = AllocMem(SCORE_SZ,0)) == NULL) return 17;
 	volmem = wavmem + S_WAVBUF;
@@ -1155,12 +1164,17 @@ void main(int argc,char argv[])
 	DebugInit();
 	DebugPutStr("\n\n\nWelcome to FaeryTale Debugging\n");
 
+	DebugPutStr("PreCaching Background Music Scores\n");
+	ApolloLoad("FT_Intro.aiff", &BackGround_Intro_Buffer, &BackGround_Intro_Lenght, AIFF_OFFSET);
+	ApolloLoad("FT_Day.aiff", &BackGround_Day_Buffer, &BackGround_Day_Lenght, AIFF_OFFSET);
+	ApolloLoad("FT_Battle.aiff", &BackGround_Battle_Buffer, &BackGround_Battle_Lenght, AIFF_OFFSET);
+	ApolloLoad("FT_Night.aiff", &BackGround_Night_Buffer, &BackGround_Night_Lenght, AIFF_OFFSET);
+	ApolloLoad("FT_Interior.aiff", &BackGround_Interior_Buffer, &BackGround_Interior_Lenght, AIFF_OFFSET);
+	ApolloLoad("FT_Death.aiff", &BackGround_Death_Buffer, &BackGround_Death_Lenght, AIFF_OFFSET);
+
 	light_timer = 0;
 	i = open_all();
 	if (i) { do_error(i); goto quit_all; }
-
-	//DebugPutStr("Calling stopscore()\n");
-	//stopscore();
 
 	DebugPutStr("Init Variables\n");
 	vp_page.RasInfo = &ri_page1;
@@ -1177,16 +1191,14 @@ void main(int argc,char argv[])
 	SetAPen(rp,1);
 	ssp(titletext);
 	SetAPen(rp,i);
-	DebugPutStr("Delay 5000\n");
-	ApolloCPUDelay(5000);
 
 	rp = &rp_text;
 	rp_text.BitMap = &bm_scroll;
 	SetFont(rp,afont); SetAPen(rp,10); SetBPen(rp,11);
 
-	DebugPutStr("read_score() and read_sample()\n");
-	read_score();
-	read_sample();
+	//DebugPutStr("read_score() and read_sample()\n");
+	//read_score();
+	//read_sample();
 
 	vp = &vp_page;							/* so that iff subs can communicate */
 	vp_page.RasInfo = &ri_page1;
@@ -1198,18 +1210,18 @@ void main(int argc,char argv[])
 	
 	bm_lim->Planes[0] = sector_mem;
 
-	DebugPutStr("Calling play_score()\n");
-	playscore(track[12],track[13],track[14],track[15]);
-	ApolloCPUDelay(1000);
-
+	DebugPutStr("Playing Intro\n");
+	
+	ApolloPlay(0, 0xAA, 0xAA, true, BackGround_Intro_Buffer, BackGround_Intro_Lenght, 0);
+	
 	DebugPutStr("Calling LoadRGB4()\n");
 	LoadRGB4(&vp_text,blackcolors,32);
 
 	fp_page2.ri_page = &ri_page2;
 	screen_size(0);
 
-	pagechange();		/* 'prime the pump' */
-	pagechange();
+	//pagechange();		/* 'prime the pump' */
+	//pagechange();
 
 	if (skipint()) goto no_intro;				//[WD] re-enable later
 
@@ -1237,28 +1249,34 @@ end_intro:
 	for (i=156; i>=0; i-=4) screen_size(i);
 
 no_intro:
-	seekn();
+	//seekn();
 	/* go to normal (playing) screen mode */
 
 	fp_page2.ri_page = &ri_page2;
 	rp_map.BitMap =  fp_viewing->ri_page->BitMap; SetRast(&rp_map,0);
 	rp_map.BitMap =  fp_drawing->ri_page->BitMap; SetRast(&rp_map,0);
 
-	LoadRGB4(&vp_text,blackcolors,32);
-	screen_size(156);
-	SetRGB4(&vp_page,0,0,0,3);
+	//LoadRGB4(&vp_text,blackcolors,32);
+	//screen_size(156);
+	//SetRGB4(&vp_page,0,0,0,3);
+
 	load_track_range(896,24,shadow_mem,0);
 	WaitLastDiskIO(); /* WaitIO((struct IORequest *)lastreq); */
 	InvalidLastDiskIO(); /* lastreq->iotd_Req.io_Command = CMD_INVALID; */
 
-	SetRGB4(&vp_page,0,0,0,6);
+	//DebugPutStr("SetRGB4(&vp_page,0,0,0,6)\n");
+	//SetRGB4(&vp_page,0,0,0,6);
+	//ApolloCPUDelay(3000);
+
 	unpackbrush("hiscreen",bm_text,0,0);
 
-	SetRGB4(&vp_page,1,15,15,15);
-
+	//DebugPutStr("SetRGB4(&vp_page,1,15,15,15)\n");
+	//SetRGB4(&vp_page,1,15,15,15);
+	//ApolloCPUDelay(3000);
+	
 	rp = &rp_map;
 	rp_map.BitMap =  fp_drawing->ri_page->BitMap;
-	stillscreen();
+	//stillscreen();
 
 	SetAPen(rp,1);
 		
@@ -1271,10 +1289,6 @@ no_intro:
 
 	ri_page1.RxOffset = ri_page2.RxOffset =	ri_page1.RyOffset = ri_page2.RyOffset = 0;
 
-	DebugPutStr("Calling stopscore()\n");
-	stopscore();
-		
-	DebugPutStr("Calling revive()\n");
 	revive(TRUE);
 	
 	rp_map.BitMap = fp_drawing->ri_page->BitMap;
@@ -2057,7 +2071,7 @@ no_intro:
 					}
 				}
 				if (!freeze_timer) /* no time in timestop */
-					if ((daynight++) >= 24000) daynight = 0;
+					if ((daynight+=10) >= 24000) daynight = 0;			//[WD] Time set to +10 instead of ++
 				lightlevel = daynight/40;
 				if (lightlevel >= 300) lightlevel = 600 - lightlevel;
 				if (lightlevel < 40) ob_listg[5].ob_stat = 3;
@@ -2873,7 +2887,8 @@ revive(new) short new;
 	handler_data.laydown = handler_data.pickup = 0;
 	battleflag = goodfairy = mdex = 0;
 	if (new)
-	{	stopscore();
+	{	
+		ApolloFadeOut(0, 0xAA, 0);
 		if (brother > 0 && brother < 3)
 		{	ob_listg[brother].xc = hero_x;
 			ob_listg[brother].yc = hero_y;
@@ -2980,8 +2995,12 @@ screen_size(x) register long x;
 	pagechange();
 }
 
+char now_old = 0xFF;
+long off_old = 0xFF;
+
 setmood(now) char now;
-{	register long off;
+{	
+	register long off;
 	if (anim_list[0].vitality == 0) off = (6*4);
 	else if (hero_x > 0x2400 && hero_x < 0x3100 &&
 			hero_y > 0x8200 && hero_y < 0x8a00)
@@ -2995,12 +3014,40 @@ setmood(now) char now;
 	else if (lightlevel > 120) off = 0;
 	else off = 8;
 
-	if (menus[GAME].enabled[6] & 1)
-	{	if (now)
-			playscore(track[off],track[off+1],track[off+2],track[off+3]);
-		else setscore(track[off],track[off+1],track[off+2],track[off+3]);
+	if ((now_old == now) && (off_old == off))
+	{
+		return;
+	} else {
+		sprintf(message,"now = %d | now_old = %d | off = %d | off_old = %d\n", now, now_old, off, off_old);
+		DebugPutStr(message);
+
+		if (off_old != off)
+		{
+			ApolloStop(0);
+			
+			switch(off)
+			{
+				case 0: ApolloPlay(0, 0xAA, 0xAA, true, BackGround_Day_Buffer, BackGround_Day_Lenght, 0); break;
+				case 4:  ApolloPlay(0, 0xAA, 0xAA, true, BackGround_Battle_Buffer, BackGround_Battle_Lenght, 0); break;
+				case 8:  ApolloPlay(0, 0xAA, 0xAA, true, BackGround_Night_Buffer, BackGround_Night_Lenght, 0); break;
+				case 20: ApolloPlay(0, 0xAA, 0xAA, true, BackGround_Interior_Buffer, BackGround_Interior_Lenght, 0); break;
+				case 24: ApolloPlay(0, 0xAA, 0xAA, true, BackGround_Death_Buffer, BackGround_Death_Lenght, 0); break;
+				default: break;
+			}
+		}
+
+		now_old = now;
+		off_old = off;
+
+		/*if ((off !=0) && (off !=4) && (off !=8) && (off !=20) && (off !=24)) 
+		{
+			if ( (menus[GAME].enabled[6] & 1))
+			{	if (now && (off !=0) && (off !=4) && (off !=8) && (off !=20) && (off !=24)) playscore(track[off],track[off+1],track[off+2],track[off+3]);
+				else setscore(track[off],track[off+1],track[off+2],track[off+3]);
+			}
+			else stopscore();
+		}*/
 	}
-	else stopscore();
 }
 
 gen_mini()
