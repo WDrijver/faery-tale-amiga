@@ -11,7 +11,7 @@ char ApolloDebugText[120];
 
 ULONG ApolloMemoryFree;
 
-void ApolloLoad(const char *filename, UBYTE **buffer, ULONG *lenght, UWORD offset)
+void ApolloLoad(const char *filename, UBYTE **buffer, ULONG *lenght, UWORD offset, bool endianswap)
 {
 	static UBYTE *file_buffer = 0;						// raw input buffer	
 	static UBYTE *file_buffer_aligned = 0;				// 64-bit aligned input buffer	
@@ -103,6 +103,8 @@ void ApolloLoad(const char *filename, UBYTE **buffer, ULONG *lenght, UWORD offse
 		#endif
     }
 
+	if (endianswap) ApolloEndianSwap2Loop((UWORD*)file_buffer_aligned, (ULONG)file_size);
+
 	*lenght = file_size;
 	*buffer = file_buffer_aligned;
 
@@ -112,7 +114,7 @@ void ApolloLoad(const char *filename, UBYTE **buffer, ULONG *lenght, UWORD offse
 	#endif
 }
 
-void ApolloShowFile(const char *filename, UBYTE **buffer_draw, UBYTE **buffer_live, ULONG lenght, UWORD offset, UWORD gfx_mode, UWORD gfx_modulo)
+void ApolloShowFile(const char *filename, UBYTE **buffer_draw, UBYTE **buffer_live, ULONG lenght, UWORD offset, UWORD gfx_mode, UWORD gfx_modulo, bool endianswap)
 {
 	static ULONG file_size = 0;
 	static ULONG file_read = 0;
@@ -173,6 +175,8 @@ void ApolloShowFile(const char *filename, UBYTE **buffer_draw, UBYTE **buffer_li
 	    DebugPutStr( "SUCCESS: file closed\n");
 		#endif
     }
+
+	if (endianswap) ApolloEndianSwap8Loop((UWORD*)*buffer_draw, (ULONG)lenght);
 
 	buffer_temp = *buffer_live;
 	*buffer_live = *buffer_draw;

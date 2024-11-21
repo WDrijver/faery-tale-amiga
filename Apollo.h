@@ -10,23 +10,25 @@ extern "C"{
 #include "ApolloDebug.h"
 #include "ApolloCPUDelay.h"
 #include "ApolloRegParam.h"
+#include "ApolloEndianSwap8.h"
 
 #define AIFF_OFFSET		128
 #define DDS_OFFSET		128
 
-#define SAGA_MODE       0x0F02
-#define SAGA_X_SIZE     848
-#define SAGA_Y_SIZE     480
-#define SAGA_X_SIZE_F	848.0f
-#define SAGA_Y_SIZE_F	480.0f
+#define SAGA_MODE       0x0404
+#define SAGA_MODULO		0
+#define SAGA_X_SIZE     640
+#define SAGA_Y_SIZE     400
+#define SAGA_X_SIZE_F	640.0f
+#define SAGA_Y_SIZE_F	400.0f
 
-#define SAGA_X_HUD		848
+#define SAGA_X_HUD		640
 #define SAGA_Y_HUD		80
 
 #define SAGA_PIXELS     SAGA_X_SIZE * SAGA_Y_SIZE
 #define SAGA_BYTES      SAGA_PIXELS * SAGA_BYTEPP
 
-#define SAGA_BYTEPP		2
+#define SAGA_BYTEPP		3
 #define SAGA_BITPP		SAGA_BYTEPP * 8
 
 #define APOLLO_POINTER_SET_X    0xDFF1D0
@@ -89,14 +91,14 @@ typedef struct
 	unsigned short	MiddleDefault;
 } ApolloMouseState;
 
-extern void ApolloLoad(const char *filename, uint8_t **buffer, uint32_t *lenght, uint16_t offset);
+extern void ApolloLoad(const char *filename, uint8_t **buffer, uint32_t *lenght, uint16_t offset, bool endianswap);
 extern bool ApolloPlay(int channel, int volume_left, int volume_right, bool loop, uint8_t *buffer, uint32_t lenght, uint16_t offset);
 extern void ApolloStop(int channel);
 extern void ApolloStart(int channel);
 extern void ApolloFadeOut(int channel, int volume_start, int volume_end);
 extern void ApolloVolume(int channel, int volume_left, int volume_right);
 extern void ApolloShow(uint16_t gfx_mode, uint16_t gfx_modulo, uint8_t *buffer);
-extern void ApolloShowFile(const char *filename, uint8_t **buffer_draw, uint8_t **buffer_live, uint32_t lenght, uint16_t offset, uint16_t gfx_mode, uint16_t gfx_modulo);
+extern void ApolloShowFile(const char *filename, uint8_t **buffer_draw, uint8_t **buffer_live, uint32_t lenght, uint16_t offset, uint16_t gfx_mode, uint16_t gfx_modulo, bool endianswap);
 extern void ApolloPlayFile(const char *filename, uint8_t *buffer, uint16_t offset, int channel, int volume_left, int volume_right, bool loop);
 extern void ApolloCacheFile(const char *filename, uint8_t **cache_base, uint32_t *cache_offset, uint16_t file_offset);
 extern void ApolloSwap16(uint8_t *buffer, uint32_t lenght);

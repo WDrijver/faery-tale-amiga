@@ -22,6 +22,9 @@ char	message[120];
 UBYTE	*BackGround_Intro_Buffer, *BackGround_Day_Buffer, *BackGround_Battle_Buffer, *BackGround_Night_Buffer, *BackGround_Interior_Buffer, *BackGround_Death_Buffer;
 ULONG 	BackGround_Intro_Lenght, BackGround_Day_Lenght, BackGround_Battle_Lenght, BackGround_Night_Lenght, BackGround_Interior_Lenght, BackGround_Death_Lenght;
 
+UBYTE	*IntroBook_Buffer_U, *IntroBook_ViewPort_U, *IntroBook_Buffer, *IntroBook_ViewPort;
+ULONG	IntroBook_Lenght;
+
 extern struct MsgPort *CreatePort();
 extern struct IOStdReq *CreateStdIO();
 
@@ -767,24 +770,11 @@ open_all()
 	SetDrMd(rp,JAM2);
 	SetRast(rp,0);		/* clear workbench screen (not!) */
 
-	if ((bm_page1 =
-		(struct BitMap *)AllocMem(5*BM_SIZE,MEMF_CHIP | MEMF_CLEAR)) == NULL )
-			return 1;
+	if ((bm_page1 =	(struct BitMap *)AllocMem(5*BM_SIZE,MEMF_CHIP | MEMF_CLEAR)) == NULL ) return 1;
+
 	SETFN(AL_BMAP);		/* allocated the bitmap structures */
 
 	if (i = AllocDiskIO()) return i;
-
-#if 0
-	if ((diskport = CreatePort(0,0))==0) return 30;
-	SETFN(AL_PORT);
-	if ((diskreq1=(struct IOExtTD *)CreateExtIO(diskport,sizeof(struct IOExtTD)))==0) return 31;
-	SETFN(AL_IOREQ);
-	if (OpenDevice(TD_NAME,0,(struct IORequest *)diskreq1,0)) return 32;
-	SETFN(AL_TDISK);
-	for (i=0; i<9; i++)
-	{	diskreqs[i] = *diskreq1;
-	}
-#endif
 
 	if ((seg = LoadSeg("fonts/Amber/9")) == NULL) return 15;
 	font = (struct DiskFontHeader *) ((seg<<2)+8);
@@ -805,11 +795,12 @@ open_all()
 	thistask = (struct Process *)FindTask(0);
 	thistask->pr_WindowPtr = (APTR)-1;
 	thistask->pr_Task.tc_TrapCode = (APTR)trapper;
+
 	/* set trap handler */
 
 	SETFN(AL_HANDLE);
 	FreeSprite(0);
-	GetSprite(&pointer,0);	/* test for error */
+	GetSprite(&pointer,0);		/* test for error */
 
 	InitView(&v);				/* initialize view */
 
@@ -838,10 +829,12 @@ open_all()
 	bm_text = bm_page1 + 2;
 	bm_source = bm_page1 + 3;
 	bm_lim = bm_page1 + 4;
+
 	InitBitMap(bm_page1,PAGE_DEPTH,PHANTA_WIDTH,RAST_HEIGHT);
 	InitBitMap(bm_page2,PAGE_DEPTH,PHANTA_WIDTH,RAST_HEIGHT);
 	InitBitMap(bm_text,4,640,TEXT_HEIGHT);
 	InitBitMap(bm_lim,1,320,200);
+
 	InitBitMap(&pagea,5,320,200);
 	InitBitMap(&pageb,5,320,200);
 	InitBitMap(&bm_scroll,1,640,TEXT_HEIGHT);
@@ -1165,12 +1158,24 @@ void main(int argc,char argv[])
 	DebugPutStr("\n\n\nWelcome to FaeryTale Debugging\n");
 
 	DebugPutStr("PreCaching Background Music Scores\n");
-	ApolloLoad("FT_Intro.aiff", &BackGround_Intro_Buffer, &BackGround_Intro_Lenght, AIFF_OFFSET);
-	ApolloLoad("FT_Day.aiff", &BackGround_Day_Buffer, &BackGround_Day_Lenght, AIFF_OFFSET);
-	ApolloLoad("FT_Battle.aiff", &BackGround_Battle_Buffer, &BackGround_Battle_Lenght, AIFF_OFFSET);
-	ApolloLoad("FT_Night.aiff", &BackGround_Night_Buffer, &BackGround_Night_Lenght, AIFF_OFFSET);
-	ApolloLoad("FT_Interior.aiff", &BackGround_Interior_Buffer, &BackGround_Interior_Lenght, AIFF_OFFSET);
-	ApolloLoad("FT_Death.aiff", &BackGround_Death_Buffer, &BackGround_Death_Lenght, AIFF_OFFSET);
+	ApolloLoad("FT_Intro.aiff", &BackGround_Intro_Buffer, &BackGround_Intro_Lenght, AIFF_OFFSET, false);
+	
+	DebugPutStr("Playing Intro\n");
+	ApolloPlay(0, 0xAA, 0xAA, true, BackGround_Intro_Buffer, BackGround_Intro_Lenght, 0);
+
+	IntroBook_Buffer_U = (ULONG *)AllocMem(SAGA_X_SIZE*SAGA_Y_SIZE*2+15, MEMF_ANY);
+	IntroBook_ViewPort_U = (ULONG *)AllocMem(SAGA_X_SIZE*SAGA_Y_SIZE*2+15, MEMF_ANY);
+    IntroBook_Buffer = (ULONG *)(((ULONG)IntroBook_Buffer_U+15) & 0xFFFFFFF0);
+	IntroBook_ViewPort = (ULONG *)(((ULONG)IntroBook_ViewPort_U+15) & 0xFFFFFFF0);
+
+	ApolloLoad("page0.dds", &IntroBook_Buffer, SAGA_BYTES, DDS_OFFSET, false);
+	ApolloShow(SAGA_MODE, 0, IntroBook_Buffer);
+	
+	ApolloLoad("FT_Day.aiff", &BackGround_Day_Buffer, &BackGround_Day_Lenght, AIFF_OFFSET, false);
+	ApolloLoad("FT_Battle.aiff", &BackGround_Battle_Buffer, &BackGround_Battle_Lenght, AIFF_OFFSET, false);
+	ApolloLoad("FT_Night.aiff", &BackGround_Night_Buffer, &BackGround_Night_Lenght, AIFF_OFFSET, false);
+	ApolloLoad("FT_Interior.aiff", &BackGround_Interior_Buffer, &BackGround_Interior_Lenght, AIFF_OFFSET, false);
+	ApolloLoad("FT_Death.aiff", &BackGround_Death_Buffer, &BackGround_Death_Lenght, AIFF_OFFSET, false);
 
 	light_timer = 0;
 	i = open_all();
@@ -1182,11 +1187,11 @@ void main(int argc,char argv[])
 	rp_map.BitMap =  fp_viewing->ri_page->BitMap; SetRast(&rp_map,0);
 	rp_map.BitMap =  fp_drawing->ri_page->BitMap; SetRast(&rp_map,0);
 	rp = &rp_map;
+
+	DebugPutStr("Show Titlescreen\n");
 	screen_size(156);
 	SetRGB4(&vp_page,0,0,0,6);
 	SetRGB4(&vp_page,1,15,15,15);
-
-	DebugPutStr("Show Legals\n");
 	i = rp->FgPen;
 	SetAPen(rp,1);
 	ssp(titletext);
@@ -1196,9 +1201,9 @@ void main(int argc,char argv[])
 	rp_text.BitMap = &bm_scroll;
 	SetFont(rp,afont); SetAPen(rp,10); SetBPen(rp,11);
 
-	//DebugPutStr("read_score() and read_sample()\n");
+	DebugPutStr("read_score() and read_sample()\n");
 	//read_score();
-	//read_sample();
+	read_sample();
 
 	vp = &vp_page;							/* so that iff subs can communicate */
 	vp_page.RasInfo = &ri_page1;
@@ -1210,10 +1215,6 @@ void main(int argc,char argv[])
 	
 	bm_lim->Planes[0] = sector_mem;
 
-	DebugPutStr("Playing Intro\n");
-	
-	ApolloPlay(0, 0xAA, 0xAA, true, BackGround_Intro_Buffer, BackGround_Intro_Lenght, 0);
-	
 	DebugPutStr("Calling LoadRGB4()\n");
 	LoadRGB4(&vp_text,blackcolors,32);
 
@@ -1225,27 +1226,26 @@ void main(int argc,char argv[])
 
 	if (skipint()) goto no_intro;				//[WD] re-enable later
 
-	DebugPutStr("Calling unpackbrush & BltBitMap\n");
+	DebugPutStr("Loading Book Page #0\n");
 	unpackbrush("page0",&pageb,0,0);
 	BltBitMap(&pageb,0,0,bm_page1,0,0,320,200,0xC0,0x1f,0);
 	BltBitMap(&pageb,0,0,bm_page2,0,0,320,200,0xC0,0x1f,0);
 
 	fp_page2.ri_page = &ri_page1;
-	DebugPutDec("screen_size()",i);
+	DebugPutStr("IRIS Open\n");
 	for (i=0; i<=160; i+=4) screen_size(i);
-	fp_page2.ri_page = &ri_page2;
-
-	if (skipint()) goto end_intro;
 	
-	DebugPutStr("copypage() - 3X\n");
+	fp_page2.ri_page = &ri_page2;
+	if (skipint()) goto end_intro;
+	DebugPutStr("Copy Pages #1 - 3\n");
 	copypage("p1a","p1b",21,29);
 	copypage("p2a","p2b",20,29);
 	copypage("p3a","p3b",20,33);
 	if (!skipp) ApolloCPUDelay(5000);
 
 end_intro:
-	DebugPutStr("end_intro\n");
 	fp_page2.ri_page = &ri_page1;
+	DebugPutStr("IRIS Close\n");
 	for (i=156; i>=0; i-=4) screen_size(i);
 
 no_intro:
@@ -1268,6 +1268,7 @@ no_intro:
 	//SetRGB4(&vp_page,0,0,0,6);
 	//ApolloCPUDelay(3000);
 
+	DebugPutStr("Load Navigation Bar\n");
 	unpackbrush("hiscreen",bm_text,0,0);
 
 	//DebugPutStr("SetRGB4(&vp_page,1,15,15,15)\n");
@@ -3709,7 +3710,10 @@ load_new_region()
 
 effect(num,speed) short num; long speed;
 {	if (menus[GAME].enabled[7] & 1)
-	{	playsample(sample[num],sample_size[num]/2,speed); }
+	{	
+		DebugPutDec("PlaySample", num);
+		playsample(sample[num],sample_size[num]/2,speed);
+	}
 }
 
 mod1save()

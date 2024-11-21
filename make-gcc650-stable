@@ -33,7 +33,7 @@ C_INCL_ALL 	= -I$(C_INCL) -I$(C_INCL_SYS) -I$(C_INCL_NDK)
 C_LIBS_ALL	= -lamiga
 
 # Define C Options
-C_OPTIONS = -m68080 -m68881 -fomit-frame-pointer -ffast-math -w
+C_OPTIONS = -m68080 -m68881 -fomit-frame-pointer -ffast-math -DREGPARM=4 -w
 #-DREGPARM=4 -DM68K=1 -w
 C_FLAGS = $(C_LIB) $(C_OPTIONS) $(C_INCL_ALL) $(C_LIBS_ALL) -DAPOLLODEBUG_APOLLO
 
@@ -61,7 +61,7 @@ S_OBJECTDIR = .
 C_FILES = $(wildcard $(C_SOURCEDIR)/*.c)
 S_FILES = $(wildcard $(S_SOURCEDIR)/*.asm)
 O_FILES = 	fmain.o fmain2.o iffsubs.o hdrive.o \
-			cursor.o fsubs.o gdriver.o msg.o narr.o set_course.o prq.o stuff_flag.o Apollo.o ApolloDebug.o ApolloCPUDelay.o 
+			cursor.o fsubs.o gdriver.o msg.o narr.o set_course.o prq.o stuff_flag.o Apollo.o ApolloDebug.o ApolloCPUDelay.o ApolloEndianSwap2.o ApolloEndianSwap8.o
 
 # $(patsubst $(C_SOURCEDIR)/%.c,$(C_OBJECTDIR)/%.o,$(C_FILES)) $(patsubst $(S_SOURCEDIR)/%.s,$(S_OBJECTDIR)/%.o,$(S_FILES))
 
